@@ -1,0 +1,9 @@
+<tui-textfield tuiChevron >
+  <label tuiLabel>Trạng thái hoạt động</label>
+  <input tuiTextfield tuiSelect formControlName="activeStatus" />
+
+  <tui-data-list-wrapper
+    *tuiTextfieldDropdown
+    [items]="options"
+  />
+</tui-textfield>

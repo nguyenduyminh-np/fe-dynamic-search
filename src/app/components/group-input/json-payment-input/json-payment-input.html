@@ -1,0 +1,21 @@
+<div class="form-card">
+  <div class="json-wrapper">
+    <tui-textfield class="json-input">
+      <label tuiLabel>Dữ liệu được phê duyệt (JSON)</label>
+
+      <textarea
+        tuiTextarea
+        formControlName="jsonDataText"
+        placeholder='{"key":"value"}'
+        rows="10"
+        spellcheck="false"
+        style="min-height: 150px"
+      ></textarea>
+    </tui-textfield>
+
+    <div *ngIf="jsonDataErrorText" class="error-box">
+      <tui-icon icon="@tui.circle-alert"></tui-icon>
+      {{ jsonDataErrorText }}
+    </div>
+  </div>
+</div>

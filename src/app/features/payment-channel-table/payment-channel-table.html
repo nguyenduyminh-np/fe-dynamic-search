@@ -1,0 +1,42 @@
+<div class="page">
+  <div class="page__header">
+    <div class="page__title">
+      <h3 class="page__h2 tui-text_h3">DANH SÁCH KÊNH THANH TOÁN</h3>
+    </div>
+
+    <a class="btn btn--primary" routerLink="/payment-channels/create">
+      + TẠO MỚI
+    </a>
+  </div>
+
+  <tui-loader [showLoader]="isLoading()" [overlay]="true" size="xl">
+    <div class="grid-wrap">
+      <ag-grid-angular
+        class="ag-theme-quartz"
+        [rowData]="rowData()"
+        [columnDefs]="colDefs"
+        [domLayout]="'autoHeight'"
+        [defaultColDef]="defaultColDef"
+        [pagination]="false"
+        (gridReady)="onGridReady($event)"
+        (firstDataRendered)="onFirstDataRendered($event)"
+        (gridSizeChanged)="onGridSizeChanged($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </tui-loader>
+
+  <div class="page__footer">
+    <div class="meta">
+      <span class="meta__label">Tổng số bản ghi</span>
+      <strong class="meta__value">{{ totalElements() }}</strong>
+    </div>
+
+    <tui-pagination
+      class="pager"
+      [length]="totalPages()"
+      [index]="currentPage()"
+      (indexChange)="onPageChange($event)"
+    ></tui-pagination>
+  </div>
+</div>

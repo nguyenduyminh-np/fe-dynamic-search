@@ -1,0 +1,44 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: transparent;
+}
+
+.header-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.header-grid {
+  width: min(100%, 900px);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  text-align: center;
+}
+
+.nav-btn {
+  width: 100%;
+  justify-content: center;
+  font-weight: 500;
+}
+
+/* active */
+a.active {
+  font-weight: 600;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.search-placeholder {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--tui-base-03);
+  color: var(--tui-text-03);
+  font-size: 0.875rem;
+  text-align: center;
+  user-select: none;
+}

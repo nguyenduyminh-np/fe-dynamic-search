@@ -1,0 +1,146 @@
+/* Layout tổng */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ag-theme-quartz {
+  width: 100%;
+}
+
+/* Header */
+.page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+
+  /* Ưu tiên theme của Taiga UI, fallback an toàn */
+  background: var(--tui-base-01, #ffffff);
+  border: 1px solid var(--tui-base-04, #e6e8ef);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.page__title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.page__h2 {
+  margin: 0;
+  letter-spacing: -0.2px;
+  color: var(--tui-text-primary, #0f172a);
+}
+
+.page__sub {
+  margin: 0;
+  color: var(--tui-text-secondary, #64748b);
+}
+
+/* Button link */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 10px;
+
+  font-weight: 600;
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease,
+    border-color 120ms ease;
+}
+
+.btn--primary {
+  background: var(--tui-primary, #2563eb);
+  color: var(--tui-primary-text, #ffffff);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18);
+}
+
+.btn--primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.22);
+}
+
+.btn--primary:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18);
+}
+
+/* Bọc grid cho đẹp */
+.grid-wrap {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--tui-base-04, #e6e8ef);
+  background: var(--tui-base-01, #ffffff);
+}
+
+/* Footer */
+.page__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+
+  background: var(--tui-base-01, #ffffff);
+  border: 1px solid var(--tui-base-04, #e6e8ef);
+}
+
+/* Meta info */
+.meta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.meta__label {
+  color: var(--tui-text-tertiary, #64748b);
+  font-size: 13px;
+}
+
+.meta__value {
+  color: var(--tui-text-primary, #0f172a);
+  font-size: 14px;
+}
+
+/* Pagination align */
+.pager {
+  --tui-pagination-size: 36px;
+}
+
+/* Ellipsis cell (đang dùng cho jsonData) */
+:host ::ng-deep .cell-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Optional: làm header của AG Grid nhìn “professional” hơn */
+:host ::ng-deep .ag-theme-quartz .ag-header {
+  background: var(--tui-base-02, #f8fafc);
+  border-bottom: 1px solid var(--tui-base-04, #e6e8ef);
+}
+
+:host ::ng-deep .ag-theme-quartz .ag-header-cell-label {
+  font-weight: 700;
+  color: var(--tui-text-primary, #0f172a);
+}
+
+/* Optional: row hover nhẹ */
+:host ::ng-deep .ag-theme-quartz .ag-row-hover {
+  background: rgba(2, 6, 23, 0.03);
+}

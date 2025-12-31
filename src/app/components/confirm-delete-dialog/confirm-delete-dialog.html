@@ -1,0 +1,16 @@
+<div class="dialog">
+  <p class="message">
+    {{ ( 'Bạn có chắc muốn xoá') }}:
+    <b>{{ data.name }}</b>?
+  </p>
+
+  <div class="actions">
+    <button tuiButton type="button" appearance="secondary" (click)="cancel()">
+      {{ 'Huỷ' }}
+    </button>
+
+    <button tuiButton type="button" appearance="primary" (click)="confirm()">
+      {{ 'Xoá' }}
+    </button>
+  </div>
+</div>

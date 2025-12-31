@@ -1,0 +1,60 @@
+<div class="pay-form-wrapper">
+  <div class="page-header">
+    <button
+      tuiButton
+      appearance="icon"
+      routerLink=""
+      class="back-btn"
+      title="Trang chủ"
+    >
+      <img
+        src="/assets/icons/turn-back.png"
+        alt="Back"
+        style="height: 24px; width: 24px"
+      />
+    </button>
+    <div>
+      <h2 class="page-title">TẠO MỚI KÊNH THANH TOÁN</h2>
+    </div>
+  </div>
+
+  <tui-loader [showLoader]="isLoading()" [overlay]="true" size="l">
+    <form [formGroup]="form" (ngSubmit)="submit()" id="createForm">
+      <div formGroupName="general">
+        <app-general-payment-input
+          [connectionNameOptions]="connectionNameOptions()"
+        />
+      </div>
+
+      <div formGroupName="detail">
+        <app-detail-payment-input
+          [currencyCodeOptions]="currencyCodeOptions()"
+          [msgStandardOptions]="msgStandardOptions()"
+          [channelStatusOptions]="channelStatusOptions()"
+          [paraStatusOptions]="paraStatusOptions()"
+          [webViewOptions]="webViewOptions()"
+          [activeStatusOptions]="activeStatusOptions()"
+        />
+      </div>
+
+      <div formGroupName="json">
+        <app-json-payment-input />
+      </div>
+
+      <div class="form-actions">
+        <button
+          tuiButton
+          type="button"
+          appearance="flat"
+          size="m"
+          (click)="resetForm()"
+        >
+          Reset
+        </button>
+        <button tuiButton type="submit" appearance="primary" size="m">
+          Tạo mới kênh
+        </button>
+      </div>
+    </form>
+  </tui-loader>
+</div>

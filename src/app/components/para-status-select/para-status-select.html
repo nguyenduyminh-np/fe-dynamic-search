@@ -1,0 +1,18 @@
+<tui-textfield tuiChevron>
+  <label tuiLabel>{{ label }}</label>
+
+  <input tuiComboBox formControlName="paraStatus" [placeholder]="placeholder" />
+
+  <tui-data-list-wrapper
+    *tuiTextfieldDropdown
+    new
+    [items]="options | tuiFilterByInput"
+    [emptyContent]="nothingFound"
+  />
+</tui-textfield>
+
+<ng-template #nothingFound>
+  <div class="tui-space_vertical-2 tui-space_horizontal-4">
+    Không tìm thấy dữ liệu phù hợp
+  </div>
+</ng-template>

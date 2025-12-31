@@ -1,0 +1,51 @@
+/* Container trong cell */
+.action-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 100%;
+}
+
+/* Base button */
+.action-link {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #2563eb; /* blue-600 */
+  cursor: pointer;
+  border-radius: 4px;
+  line-height: 1.4;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Hover */
+.action-link:hover {
+  background-color: rgba(37, 99, 235, 0.08);
+}
+
+/* Focus (keyboard accessible) */
+.action-link:focus-visible {
+  outline: 2px solid rgba(37, 99, 235, 0.4);
+  outline-offset: 1px;
+}
+
+/* Active */
+.action-link:active {
+  background-color: rgba(37, 99, 235, 0.15);
+}
+
+/* Danger action (Delete) */
+.action-link--danger {
+  color: #dc2626; /* red-600 */
+}
+
+.action-link--danger:hover {
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+.action-link--danger:focus-visible {
+  outline-color: rgba(220, 38, 38, 0.4);
+}

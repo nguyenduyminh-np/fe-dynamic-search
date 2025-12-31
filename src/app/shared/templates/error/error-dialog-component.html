@@ -1,0 +1,42 @@
+<ng-template #errorDialogTemplate let-context>
+  <div style="display: flex; gap: 16px; align-items: flex-start">
+    <div style="flex-shrink: 0; padding-top: 2px">
+      <tui-icon
+        icon="@tui.circle-alert"
+        [style.color]="'var(--tui-status-negative)'"
+        [style.height.rem]="1.5"
+        [style.width.rem]="1.5"
+      ></tui-icon>
+    </div>
+
+    <div style="flex-grow: 1">
+      <h3
+        class="tui-text_h6"
+        style="margin: 0 0 4px 0; color: var(--tui-text-primary)"
+      >
+        Thông báo hệ thống
+      </h3>
+      <p
+        class="tui-text_body-m"
+        style="margin: 0; color: var(--tui-text-secondary); line-height: 1.5"
+      >
+        {{ context.data }}
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="tui-form__buttons tui-form__buttons_align_end"
+    style="margin-top: 20px"
+  >
+    <button
+      tuiButton
+      size="m"
+      appearance="secondary"
+      type="button"
+      (click)="context.close()"
+    >
+      Đóng
+    </button>
+  </div>
+</ng-template>

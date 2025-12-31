@@ -1,0 +1,28 @@
+<tui-app-bar class="header">
+  <div class="header-inner">
+    <div class="header-grid">
+      <a
+        tuiButton
+        appearance="secondary"
+        class="nav-btn"
+        [routerLink]="base"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        KÊNH THANH TOÁN
+      </a>
+
+      <a
+        tuiButton
+        appearance="secondary"
+        class="nav-btn"
+        [routerLink]="[base, 'create']"
+        routerLinkActive="active"
+      >
+        TẠO MỚI
+      </a>
+
+      <div class="search-placeholder">Search…</div>
+    </div>
+  </div>
+</tui-app-bar>
