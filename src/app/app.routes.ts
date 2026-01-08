@@ -30,6 +30,36 @@ export const routes: Routes = [
           ),
         title: 'Chỉnh sửa kênh thanh toán',
       },
+      {
+        path: 'forbidden',
+        loadComponent: () =>
+          import('./features/unauthorized-page/unauthorized-page').then(
+            (m) => m.UnauthorizedPage
+          ),
+        title: 'Không có quyền truy cập',
+      },
+      {
+        path: 'notfound',
+        loadComponent: () =>
+          import(
+            './features/resources-not-found-page/resources-not-found-page'
+          ).then((m) => m.ResourcesNotFoundPage),
+        title: 'Không tìm thấy',
+      },
+      {
+        path: 'login',
+        loadComponent: () =>
+          import('./features/login-page/login-page').then((m) => m.LoginPage),
+        title: 'Đăng nhập',
+      },
+      {
+        path: 'register',
+        loadComponent: () =>
+          import('./features/register-page/register-page').then(
+            (m) => m.RegisterPage
+          ),
+        title: 'Đăng ký',
+      },
     ],
   },
 ];

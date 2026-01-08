@@ -1,6 +1,13 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { finalize, forkJoin } from 'rxjs';
 import { PaymentService } from '../services/payment-channel.service';
+import {
+  ActiveStatus,
+  ChannelStatus,
+  CurrencyCode,
+  ParaStatusOption,
+  WebViewOption,
+} from '../../shared/util/payment-channel-create.util';
 
 @Injectable()
 export class PaymentChannelCreateFacade {
@@ -10,22 +17,28 @@ export class PaymentChannelCreateFacade {
   private readonly _error = signal<string | null>(null);
 
   private readonly _connectionNameOptions = signal<readonly string[]>([]);
-  private readonly _currencyCodeOptions = signal<readonly string[]>([]);
+
   private readonly _msgStandardOptions = signal<readonly string[]>([]);
-  private readonly _channelStatusOptions = signal<readonly string[]>([]);
-  private readonly _paraStatusOptions = signal<readonly number[]>([]);
-  private readonly _webViewOptions = signal<readonly number[]>([]);
-  private readonly _activeStatusOptions = signal<readonly number[]>([]);
 
   readonly isLoading = this._loading.asReadonly();
   readonly errorMsg = this._error.asReadonly();
 
   readonly connectionNameOptions = this._connectionNameOptions.asReadonly();
-  readonly currencyCodeOptions = this._currencyCodeOptions.asReadonly();
   readonly msgStandardOptions = this._msgStandardOptions.asReadonly();
-  readonly channelStatusOptions = this._channelStatusOptions.asReadonly();
-  readonly paraStatusOptions = this._paraStatusOptions.asReadonly();
+
+  private readonly _webViewOptions = signal<readonly WebViewOption[]>([]);
   readonly webViewOptions = this._webViewOptions.asReadonly();
+
+  private readonly _paraStatusOptions = signal<readonly ParaStatusOption[]>([]);
+  readonly paraStatusOptions = this._paraStatusOptions.asReadonly();
+
+  private readonly _currencyCodeOptions = signal<readonly CurrencyCode[]>([]);
+  readonly currencyCodeOptions = this._currencyCodeOptions.asReadonly();
+
+  private readonly _channelStatusOptions = signal<readonly ChannelStatus[]>([]);
+  readonly channelStatusOptions = this._channelStatusOptions.asReadonly();
+
+  private readonly _activeStatusOptions = signal<readonly ActiveStatus[]>([]);
   readonly activeStatusOptions = this._activeStatusOptions.asReadonly();
 
   init(): void {
@@ -44,6 +57,7 @@ export class PaymentChannelCreateFacade {
       .pipe(finalize(() => this._loading.set(false)))
       .subscribe({
         next: (r) => {
+          // fast-fail
           this._connectionNameOptions.set(r.connectionNames ?? []);
           this._currencyCodeOptions.set(r.currencyCodes ?? []);
           this._msgStandardOptions.set(r.msgStandards ?? []);

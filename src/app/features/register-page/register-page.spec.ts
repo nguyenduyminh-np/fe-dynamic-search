@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveStatusSelect } from './active-status-select';
+import { RegisterPage } from './register-page';
 
-describe('ActiveStatusSelect', () => {
-  let component: ActiveStatusSelect;
-  let fixture: ComponentFixture<ActiveStatusSelect>;
+describe('RegisterPage', () => {
+  let component: RegisterPage;
+  let fixture: ComponentFixture<RegisterPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActiveStatusSelect]
+      imports: [RegisterPage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActiveStatusSelect);
+    fixture = TestBed.createComponent(RegisterPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

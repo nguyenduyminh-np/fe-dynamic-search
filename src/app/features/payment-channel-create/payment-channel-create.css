@@ -1,5 +1,5 @@
 /* --- LAYOUT CHUNG --- */
-.pay-form-wrapper {
+.create-form-wrapper {
   max-width: 1000px;
   margin: 0 auto;
   padding: 24px;
@@ -10,32 +10,32 @@
 }
 
 /* --- HEADER --- */
-.pay-form-wrapper .page-header {
+.create-form-wrapper .page-header {
   display: flex;
   align-items: center;
   gap: 16px;
   margin-bottom: 8px;
 }
 
-.pay-form-wrapper .page-title {
+.create-form-wrapper .page-title {
   margin: 0;
   font-size: 24px;
   font-weight: 700;
   color: #1a1f36;
 }
 
-.pay-form-wrapper .page-subtitle {
+.create-form-wrapper .page-subtitle {
   margin: 4px 0 0;
   color: #697386;
   font-size: 14px;
 }
 
-.pay-form-wrapper .back-btn {
+.create-form-wrapper .back-btn {
   border-radius: 50%;
 }
 
 /* --- CARDS (KHỐI TRẮNG) --- */
-.pay-form-wrapper .form-card {
+.create-form-wrapper .form-card {
   background: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -44,7 +44,7 @@
   margin-bottom: 24px;
 }
 
-.pay-form-wrapper .card-title {
+.create-form-wrapper .card-title {
   font-size: 16px;
   font-weight: 600;
   color: #3c4257;
@@ -56,34 +56,34 @@
 }
 
 /* --- GRID SYSTEM --- */
-.pay-form-wrapper .form-grid {
+.create-form-wrapper .form-grid {
   display: grid;
   gap: 20px;
 }
 
-.pay-form-wrapper .layout-primary {
-  grid-template-columns: 1fr 1.5fr;
+.create-form-wrapper .general-payment-input {
+  grid-template-columns: 1.5fr 1fr;
 }
 
-.pay-form-wrapper .layout-secondary {
+.create-form-wrapper .detail-payment-input {
   grid-template-columns: repeat(3, 1fr);
 }
 
 @media (max-width: 768px) {
-  .pay-form-wrapper .layout-primary,
-  .pay-form-wrapper .layout-secondary {
+  .create-form-wrapper .layout-primary,
+  .create-form-wrapper .layout-secondary {
     grid-template-columns: 1fr;
   }
 }
 
-.pay-form-wrapper .json-header {
+.create-form-wrapper .json-header {
   display: flex;
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
 }
 
-.pay-form-wrapper .badge-json {
+.create-form-wrapper .badge-json {
   background: #e3e8ee;
   padding: 2px 8px;
   border-radius: 4px;
@@ -92,17 +92,17 @@
   color: #4f566b;
 }
 
-.pay-form-wrapper .json-input ::ng-deep textarea {
+.create-form-wrapper .json-input ::ng-deep textarea {
   min-height: 150px;
   font-family: "Courier New", Courier, monospace;
   font-size: 13px;
 }
 
-.pay-form-wrapper .json-input {
+.create-form-wrapper .json-input {
   min-height: 150px;
 }
 
-.pay-form-wrapper .form-actions {
+.create-form-wrapper .form-actions {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
@@ -110,7 +110,7 @@
   border-top: 1px dashed #e3e8ee;
 }
 
-.pay-form-wrapper .error-box {
+.create-form-wrapper .error-box {
   margin-top: 8px;
   color: #d63939;
   font-size: 13px;
@@ -122,44 +122,44 @@
   border-radius: 6px;
 }
 
-.pay-form-wrapper .required-mark {
+.create-form-wrapper .required-mark {
   color: #d63939;
 }
 
-.pay-form-wrapper .checkbox-group {
+.create-form-wrapper .checkbox-group {
   display: flex;
   align-items: center;
   height: 100%;
   min-height: 3.5rem;
 }
 
-.pay-form-wrapper .checkbox-label {
+.create-form-wrapper .checkbox-label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
 }
 
-.pay-form-wrapper .label-text {
+.create-form-wrapper .label-text {
   font-weight: 500;
   color: var(--tui-text-01);
 }
 
-.pay-form-wrapper .status-layout-wrapper {
+.create-form-wrapper .status-layout-wrapper {
   display: flex;
-  flex-wrap: wrap; /* cho phép rớt dòng */
+  flex-wrap: wrap;
   gap: 24px;
   align-items: flex-start;
 }
 
-.pay-form-wrapper .status-inputs-grid {
+.create-form-wrapper .status-inputs-grid {
   flex: 1 0 500px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
 }
 
-.pay-form-wrapper .mini-card-settings {
+.create-form-wrapper .mini-card-settings {
   width: 320px;
   flex-shrink: 0;
   background-color: #f9fafb;
@@ -170,11 +170,11 @@
   flex-direction: column;
 }
 
-.pay-form-wrapper .mini-card-header {
+.create-form-wrapper .mini-card-header {
   margin-bottom: 12px;
 }
 
-.pay-form-wrapper .mini-card-title {
+.create-form-wrapper .mini-card-title {
   font-size: 13px;
   font-weight: 600;
   color: #667085;
@@ -182,38 +182,38 @@
   letter-spacing: 0.5px;
 }
 
-.pay-form-wrapper .switches-group {
+.create-form-wrapper .switches-group {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-.pay-form-wrapper .switch-row {
+.create-form-wrapper .switch-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
 }
 
-.pay-form-wrapper .switch-text {
+.create-form-wrapper .switch-text {
   font-weight: 500;
   color: #344054;
   font-size: 14px;
 }
 
-.pay-form-wrapper .divider {
+.create-form-wrapper .divider {
   height: 1px;
   background-color: #eaecf0;
   margin: 4px 0;
 }
 
 @media (max-width: 700px) {
-  .pay-form-wrapper .status-inputs-grid {
+  .create-form-wrapper .status-inputs-grid {
     grid-template-columns: 1fr;
     flex-basis: 100%;
   }
 
-  .pay-form-wrapper .mini-card-settings {
+  .create-form-wrapper .mini-card-settings {
     width: 100%;
     flex-direction: row;
     align-items: center;

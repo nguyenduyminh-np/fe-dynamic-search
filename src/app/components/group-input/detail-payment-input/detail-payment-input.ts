@@ -12,7 +12,14 @@ import { ChannelStatusSelect } from '../../channel-status-select/channel-status-
 import { ParaStatusSelect } from '../../para-status-select/para-status-select';
 import { WebViewSelect } from '../../web-view-select/web-view-select';
 import { ActiveStatusSelect } from '../../active-status-select/active-status-select';
-import { YesNoOption } from '../../../shared/util/payment-channel-create.util';
+import {
+  ActiveStatus,
+  ChannelStatus,
+  CurrencyCode,
+  ParaStatusOption,
+  WebViewOption,
+  YesNoOption,
+} from '../../../shared/util/payment-channel-create.util';
 
 @Component({
   standalone: true,
@@ -31,10 +38,10 @@ import { YesNoOption } from '../../../shared/util/payment-channel-create.util';
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupName }],
 })
 export class DetailPaymentInput {
-  @Input() currencyCodeOptions: readonly string[] = [];
   @Input() msgStandardOptions: readonly string[] = [];
-  @Input() channelStatusOptions: readonly string[] = [];
-  @Input() paraStatusOptions: readonly number[] = [];
-  @Input() webViewOptions: readonly number[] = [];
-  @Input() activeStatusOptions: readonly number[] = [];
+  @Input() currencyCodeOptions: readonly CurrencyCode[] = [];
+  @Input() channelStatusOptions: readonly ChannelStatus[] = [];
+  @Input() paraStatusOptions: readonly ParaStatusOption[] = [];
+  @Input() webViewOptions: readonly WebViewOption[] = [];
+  @Input() activeStatusOptions: readonly ActiveStatus[] = [];
 }

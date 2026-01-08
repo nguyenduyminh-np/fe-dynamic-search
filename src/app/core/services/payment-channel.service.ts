@@ -13,6 +13,13 @@ import {
   PaymentChannelDeleteRequest,
   PaymentChannelDeleteResponse,
 } from '../models/para-payment-channel.model';
+import {
+  ActiveStatus,
+  ChannelStatus,
+  CurrencyCode,
+  ParaStatusOption,
+  WebViewOption,
+} from '../../shared/util/payment-channel-create.util';
 
 type ApiListResponse<T> = {
   status: number;
@@ -81,9 +88,9 @@ export class PaymentService {
       );
   }
 
-  fetchCurrencyCodes(): Observable<string[]> {
+  fetchCurrencyCodes(): Observable<CurrencyCode[]> {
     return this.http
-      .get<ApiListResponse<string[]>>(
+      .get<ApiListResponse<CurrencyCode[]>>(
         `${this.BASE_URL}/fetch-all-currency-code`
       )
       .pipe(
@@ -103,9 +110,9 @@ export class PaymentService {
       );
   }
 
-  fetchChannelStatuses(): Observable<string[]> {
+  fetchChannelStatuses(): Observable<ChannelStatus[]> {
     return this.http
-      .get<ApiListResponse<string[]>>(
+      .get<ApiListResponse<ChannelStatus[]>>(
         `${this.BASE_URL}/fetch-all-channel-status`
       )
       .pipe(
@@ -114,32 +121,36 @@ export class PaymentService {
       );
   }
 
-  fetchParaStatuses(): Observable<number[]> {
+  fetchParaStatuses(): Observable<ParaStatusOption[]> {
     return this.http
-      .get<ApiListResponse<number[]>>(`${this.BASE_URL}/fetch-all-para-status`)
+      .get<ApiListResponse<ParaStatusOption[]>>(
+        `${this.BASE_URL}/fetch-all-para-status`
+      )
       .pipe(
         map((res) => (Array.isArray(res?.data) ? res.data : [])),
-        catchError(() => of([] as number[]))
+        catchError(() => of([] as ParaStatusOption[]))
       );
   }
 
-  fetchWebView(): Observable<number[]> {
+  fetchWebView(): Observable<WebViewOption[]> {
     return this.http
-      .get<ApiListResponse<number[]>>(`${this.BASE_URL}/fetch-all-web-view`)
+      .get<ApiListResponse<WebViewOption[]>>(
+        `${this.BASE_URL}/fetch-all-web-view`
+      )
       .pipe(
         map((res) => (Array.isArray(res?.data) ? res.data : [])),
-        catchError(() => of([] as number[]))
+        catchError(() => of([] as WebViewOption[]))
       );
   }
 
-  fetchActiveStatus(): Observable<number[]> {
+  fetchActiveStatus(): Observable<ActiveStatus[]> {
     return this.http
-      .get<ApiListResponse<number[]>>(
+      .get<ApiListResponse<ActiveStatus[]>>(
         `${this.BASE_URL}/fetch-all-active-status`
       )
       .pipe(
         map((res) => (Array.isArray(res?.data) ? res.data : [])),
-        catchError(() => of([] as number[]))
+        catchError(() => of([] as ActiveStatus[]))
       );
   }
 }

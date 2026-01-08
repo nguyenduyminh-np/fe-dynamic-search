@@ -1,9 +1,20 @@
-<tui-textfield tuiChevron >
-  <label tuiLabel>Trạng thái hoạt động</label>
-  <input tuiTextfield tuiSelect formControlName="activeStatus" />
-
+<tui-textfield tuiChevron [stringify]="stringify">
+  <label tuiLabel>{{label}}</label>
+  <input
+    tuiComboBox
+    formControlName="activeStatus"
+    [placeholder]="placeholder"
+  />
   <tui-data-list-wrapper
+    [emptyContent]="nothingFound"
+    new
+    [items]="options | tuiFilterByInput: matcher"
     *tuiTextfieldDropdown
-    [items]="options"
   />
 </tui-textfield>
+
+<ng-template #nothingFound>
+  <div class="tui-space_vertical-2 tui-space_horizontal-4">
+    Không tìm thấy dữ liệu phù hợp
+  </div>
+</ng-template>

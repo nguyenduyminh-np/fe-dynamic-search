@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveStatusSelect } from './active-status-select';
+import { ResourcesNotFoundPage } from './resources-not-found-page';
 
-describe('ActiveStatusSelect', () => {
-  let component: ActiveStatusSelect;
-  let fixture: ComponentFixture<ActiveStatusSelect>;
+describe('ResourcesNotFoundPage', () => {
+  let component: ResourcesNotFoundPage;
+  let fixture: ComponentFixture<ResourcesNotFoundPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActiveStatusSelect]
+      imports: [ResourcesNotFoundPage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActiveStatusSelect);
+    fixture = TestBed.createComponent(ResourcesNotFoundPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveStatusSelect } from './active-status-select';
+import { LoginPage } from './login-page';
 
-describe('ActiveStatusSelect', () => {
-  let component: ActiveStatusSelect;
-  let fixture: ComponentFixture<ActiveStatusSelect>;
+describe('LoginPage', () => {
+  let component: LoginPage;
+  let fixture: ComponentFixture<LoginPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActiveStatusSelect]
+      imports: [LoginPage]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActiveStatusSelect);
+    fixture = TestBed.createComponent(LoginPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

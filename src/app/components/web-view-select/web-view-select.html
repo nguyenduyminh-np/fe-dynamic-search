@@ -1,5 +1,16 @@
-<tui-textfield tuiChevron>
-  <label tuiLabel>Hiển thị giao diện Web</label>
-  <input tuiTextfield formControlName="webView" />
-  <tui-data-list-wrapper *tuiTextfieldDropdown [items]="options" />
+<tui-textfield tuiChevron [stringify]="stringify">
+  <label tuiLabel>{{label}}</label>
+  <input tuiComboBox formControlName="webView" [placeholder]="placeholder" />
+  <tui-data-list-wrapper
+    [emptyContent]="nothingFound"
+    new
+    [items]="options | tuiFilterByInput: matcher"
+    *tuiTextfieldDropdown
+  />
 </tui-textfield>
+
+<ng-template #nothingFound>
+  <div class="tui-space_vertical-2 tui-space_horizontal-4">
+    Không tìm thấy dữ liệu phù hợp
+  </div>
+</ng-template>

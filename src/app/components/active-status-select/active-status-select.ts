@@ -5,8 +5,15 @@ import {
   FormGroupName,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { TuiLabel, TuiTextfield } from '@taiga-ui/core';
-import { TuiChevron, TuiDataListWrapper } from '@taiga-ui/kit';
+import { TuiTextfield } from '@taiga-ui/core';
+import {
+  TuiChevron,
+  TuiDataListWrapper,
+  TuiComboBox,
+  TuiFilterByInputPipe,
+} from '@taiga-ui/kit';
+import { ActiveStatus } from '../../shared/util/payment-channel-create.util';
+import { TuiStringMatcher } from '@taiga-ui/cdk';
 
 @Component({
   standalone: true,
@@ -15,14 +22,22 @@ import { TuiChevron, TuiDataListWrapper } from '@taiga-ui/kit';
     CommonModule,
     ReactiveFormsModule,
     TuiTextfield,
-    TuiLabel,
     TuiChevron,
     TuiDataListWrapper,
+    TuiComboBox,
+    TuiFilterByInputPipe,
   ],
   templateUrl: './active-status-select.html',
   styleUrl: './active-status-select.css',
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupName }],
 })
 export class ActiveStatusSelect {
-  @Input() options: readonly number[] = [];
+  @Input() options: readonly ActiveStatus[] = [];
+  @Input() label = 'Trạng thái hoạt động';
+  @Input() placeholder = '';
+
+  readonly stringify = (item: ActiveStatus): string => item?.label ?? '';
+  readonly matcher: TuiStringMatcher<ActiveStatus> = (item, search) => {
+    return item.label.toLowerCase().includes(search.toLowerCase());
+  };
 }

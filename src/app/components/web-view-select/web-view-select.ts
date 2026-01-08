@@ -6,8 +6,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { TuiTextfield } from '@taiga-ui/core';
-import { TuiChevron, TuiDataListWrapper } from '@taiga-ui/kit';
-import { YesNoOption } from '../../shared/util/payment-channel-create.util';
+import { TuiChevron, TuiDataListWrapper, TuiComboBox, TuiFilterByInputPipe } from '@taiga-ui/kit';
+import {
+  WebViewOption,
+  YesNoOption,
+} from '../../shared/util/payment-channel-create.util';
+import { TuiStringMatcher } from '@taiga-ui/cdk';
 
 @Component({
   standalone: true,
@@ -18,11 +22,20 @@ import { YesNoOption } from '../../shared/util/payment-channel-create.util';
     TuiTextfield,
     TuiChevron,
     TuiDataListWrapper,
+    TuiComboBox,
+    TuiFilterByInputPipe,
   ],
   templateUrl: './web-view-select.html',
   styleUrl: './web-view-select.css',
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupName }],
 })
 export class WebViewSelect {
-  @Input() options: readonly number[] = [];
+  @Input() options: readonly WebViewOption[] = [];
+  @Input() label = 'Hiển thị giao diện Web';
+  @Input() placeholder = '';
+
+  readonly stringify = (item: WebViewOption): string => item?.label ?? '';
+  readonly matcher: TuiStringMatcher<WebViewOption> = (item, search) => {
+    return item.label.toLowerCase().includes(search.toLowerCase());
+  };
 }

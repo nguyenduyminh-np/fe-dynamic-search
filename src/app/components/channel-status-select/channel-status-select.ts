@@ -12,6 +12,8 @@ import {
   TuiDataListWrapper,
   TuiFilterByInputPipe,
 } from '@taiga-ui/kit';
+import { ChannelStatus } from '../../shared/util/payment-channel-create.util';
+import { TuiStringMatcher } from '@taiga-ui/cdk';
 
 @Component({
   standalone: true,
@@ -30,7 +32,12 @@ import {
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupName }],
 })
 export class ChannelStatusSelect {
-  @Input() options: readonly string[] = [];
+  @Input() options: readonly ChannelStatus[] = [];
   @Input() label = 'Trạng thái kênh thanh toán';
   @Input() placeholder = '';
+
+  readonly stringify = (item: ChannelStatus): string => item?.label ?? '';
+  readonly matcher: TuiStringMatcher<ChannelStatus> = (item, search) => {
+    return item.label.toLowerCase().includes(search.toLowerCase());
+  };
 }

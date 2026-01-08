@@ -1,12 +1,10 @@
-<tui-textfield tuiChevron>
+<tui-textfield tuiChevron [stringify]="stringify">
   <label tuiLabel>{{ label }}</label>
-
   <input tuiComboBox formControlName="paraStatus" [placeholder]="placeholder" />
-
   <tui-data-list-wrapper
     *tuiTextfieldDropdown
     new
-    [items]="options | tuiFilterByInput"
+    [items]="options | tuiFilterByInput : matcher"
     [emptyContent]="nothingFound"
   />
 </tui-textfield>

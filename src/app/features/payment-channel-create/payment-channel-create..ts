@@ -35,6 +35,7 @@ import { JsonPaymentInput } from '../../components/group-input/json-payment-inpu
 
 import { PaymentChannelCreateFacade } from '../../core/facades/payment-channel-create.facade';
 import { jsonValidator } from '../../core/validators/json.validator';
+import { ParaStatusOption } from '../../shared/util/payment-channel-create.util';
 
 @Component({
   selector: 'app-para-payment-create',
@@ -99,7 +100,9 @@ export class PaymentChannelCreate implements OnInit {
       msgStandard: this.fb.nonNullable.control<string>('', [
         Validators.required,
       ]),
-      paraStatus: this.fb.control<number | null>(null, [Validators.required]),
+      paraStatus: this.fb.control<ParaStatusOption | null>(null, [
+        Validators.required,
+      ]),
       webView: this.fb.control<0 | 1 | null>(null, [Validators.required]),
       activeStatus: this.fb.control<0 | 1 | null>(null, [Validators.required]),
     }),
@@ -142,9 +145,9 @@ export class PaymentChannelCreate implements OnInit {
     }
 
     const paraStatusCtrl = this.form.controls.detail.controls.paraStatus;
-    const paraStatus = paraStatusCtrl.value;
+    const paraStatusOpt = paraStatusCtrl.value;
 
-    if (paraStatus === null) {
+    if (paraStatusOpt === null) {
       paraStatusCtrl.setErrors({ required: true });
       paraStatusCtrl.markAsTouched();
       this.showErrorDialog('Vui lòng chọn Para Status');
@@ -177,7 +180,7 @@ export class PaymentChannelCreate implements OnInit {
       currencyCode: this.form.controls.detail.controls.currencyCode.value,
       msgStandard: this.form.controls.detail.controls.msgStandard.value,
       webView,
-      paraStatus,
+      paraStatus: paraStatusOpt.value,
       activeStatus,
 
       jsonData,

@@ -12,6 +12,8 @@ import {
   TuiDataListWrapper,
   TuiFilterByInputPipe,
 } from '@taiga-ui/kit';
+import { CurrencyCode } from '../../shared/util/payment-channel-create.util';
+import { TuiStringMatcher } from '@taiga-ui/cdk';
 
 @Component({
   standalone: true,
@@ -30,7 +32,12 @@ import {
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupName }],
 })
 export class CurrencyCodeSelect {
-  @Input() options: readonly string[] = [];
+  @Input() options: readonly CurrencyCode[] = [];
   @Input() label = 'Mã loại tiền tệ';
   @Input() placeholder = '';
+
+  readonly stringify = (item: CurrencyCode): string => item?.label ?? '';
+  readonly matcher: TuiStringMatcher<CurrencyCode> = (item, search) => {
+    return item.label.toLowerCase().includes(search.toLowerCase());
+  };
 }

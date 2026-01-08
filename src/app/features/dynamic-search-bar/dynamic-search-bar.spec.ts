@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveStatusSelect } from './active-status-select';
+import { DynamicSearchBar } from './dynamic-search-bar';
 
-describe('ActiveStatusSelect', () => {
-  let component: ActiveStatusSelect;
-  let fixture: ComponentFixture<ActiveStatusSelect>;
+describe('DynamicSearchBar', () => {
+  let component: DynamicSearchBar;
+  let fixture: ComponentFixture<DynamicSearchBar>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActiveStatusSelect]
+      imports: [DynamicSearchBar]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActiveStatusSelect);
+    fixture = TestBed.createComponent(DynamicSearchBar);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -1,17 +1,15 @@
-<tui-textfield tuiChevron>
-  <label tuiLabel>{{ label }}</label>
-
+<tui-textfield tuiChevron [stringify]="stringify">
+  <label tuiLabel>{{label}}</label>
   <input
     tuiComboBox
     formControlName="channelStatus"
     [placeholder]="placeholder"
   />
-
   <tui-data-list-wrapper
-    *tuiTextfieldDropdown
-    new
-    [items]="options | tuiFilterByInput"
     [emptyContent]="nothingFound"
+    new
+    [items]="options | tuiFilterByInput: matcher"
+    *tuiTextfieldDropdown
   />
 </tui-textfield>
 

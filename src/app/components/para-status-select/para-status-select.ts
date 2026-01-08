@@ -12,6 +12,8 @@ import {
   TuiDataListWrapper,
   TuiFilterByInputPipe,
 } from '@taiga-ui/kit';
+import { TuiStringMatcher } from '@taiga-ui/cdk';
+import { ParaStatusOption } from '../../shared/util/payment-channel-create.util';
 
 @Component({
   standalone: true,
@@ -30,7 +32,14 @@ import {
   viewProviders: [{ provide: ControlContainer, useExisting: FormGroupName }],
 })
 export class ParaStatusSelect {
-  @Input() options: readonly number[] = [];
+  @Input() options: readonly ParaStatusOption[] = [];
   @Input() label = 'Trạng thái tham số';
   @Input() placeholder = '';
+
+  // stringify: input hiển thị label
+  readonly stringify = (item: ParaStatusOption): string => item?.label ?? '';
+
+  // matcher: filter theo label
+  readonly matcher: TuiStringMatcher<ParaStatusOption> = (item, search) =>
+    item.label.toLowerCase().includes(search.toLowerCase());
 }
