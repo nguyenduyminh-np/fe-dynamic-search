@@ -13,6 +13,7 @@ import {
 export class PaymentChannelCreateFacade {
   private readonly paymentService = inject(PaymentService);
 
+  // signal: reactive state: tự động update UI khi giá trị thay đổi
   private readonly _loading = signal(false);
   private readonly _error = signal<string | null>(null);
 
@@ -45,6 +46,7 @@ export class PaymentChannelCreateFacade {
     this._loading.set(true);
     this._error.set(null);
 
+    // forkJoin: gọi nhiều API song song, return Observable
     forkJoin({
       connectionNames: this.paymentService.fetchConnectionNames(),
       currencyCodes: this.paymentService.fetchCurrencyCodes(),
@@ -54,7 +56,10 @@ export class PaymentChannelCreateFacade {
       webViews: this.paymentService.fetchWebView(),
       activeStatus: this.paymentService.fetchActiveStatus(),
     })
+      // gắn sự kiện finalize ở đây, tắt loading
       .pipe(finalize(() => this._loading.set(false)))
+
+      // kích hoạt observable chạy
       .subscribe({
         next: (r) => {
           // fast-fail

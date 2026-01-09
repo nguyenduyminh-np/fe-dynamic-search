@@ -1,1 +1,42 @@
-<p>login-page works!</p>
+<form class="login" (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
+  <h1 class="title">Đăng nhập</h1>
+  <p class="subtitle">Vui lòng nhập tài khoản để tiếp tục</p>
+
+  <tui-textfield class="field">
+    <label tuiLabel>Tên đăng nhập</label>
+    <input
+      tuiTextfield
+      name="username"
+      [(ngModel)]="model.username"
+      placeholder="Nhập tên đăng nhập của bạn"
+      required
+      minlength="3"
+      [disabled]="loading()"
+      autocomplete="username"
+    />
+  </tui-textfield>
+
+  <tui-textfield class="field">
+    <label tuiLabel>Mật khẩu</label>
+    <input
+      tuiTextfield
+      name="password"
+      [(ngModel)]="model.password"
+      placeholder="Mật khẩu gồm 8 ký tự"
+      type="password"
+      required
+      [disabled]="loading()"
+      autocomplete="current-password"
+    />
+    <tui-icon tuiPassword />
+  </tui-textfield>
+
+  <button class="btn" type="submit" [disabled]="loading() || f.invalid">
+    <span>Đăng nhập</span>
+    <span class="spinner" *ngIf="loading()" aria-hidden="true"></span>
+  </button>
+
+  <div class="links">
+    <a routerLink="/register">Chưa có tài khoản? Đăng ký</a>
+  </div>
+</form>

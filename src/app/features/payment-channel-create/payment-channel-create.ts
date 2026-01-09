@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { finalize } from 'rxjs';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 import {
   TuiAlertService,
@@ -62,6 +62,7 @@ export class PaymentChannelCreate implements OnInit {
   private readonly injector = inject(Injector);
   private readonly alerts = inject(TuiAlertService);
   private readonly facade = inject(PaymentChannelCreateFacade);
+  private activatedRoute = inject(ActivatedRoute);
 
   protected readonly isLoading = this.facade.isLoading;
   protected readonly errorMsg = this.facade.errorMsg;
@@ -72,6 +73,11 @@ export class PaymentChannelCreate implements OnInit {
   protected readonly paraStatusOptions = this.facade.paraStatusOptions;
   protected readonly webViewOptions = this.facade.webViewOptions;
   protected readonly activeStatusOptions = this.facade.activeStatusOptions;
+
+  // check route info
+  constructor() {
+    console.log(this.activatedRoute);
+  }
 
   ngOnInit(): void {
     this.facade.init();

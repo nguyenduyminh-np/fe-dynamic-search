@@ -22,6 +22,25 @@
         TẠO MỚI
       </a>
 
+      <a
+        tuiButton
+        appearance="secondary"
+        class="nav-btn"
+        [routerLink]="[base, 'forbidden']"
+        routerLinkActive="active"
+      >
+        403 PAGE
+      </a>
+      <a
+        tuiButton
+        appearance="secondary"
+        class="nav-btn"
+        [routerLink]="[base, 'notfound']"
+        routerLinkActive="active"
+      >
+        404 PAGE
+      </a>
+
       <div class="search-placeholder">Search…</div>
     </div>
   </div>
