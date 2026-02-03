@@ -1,0 +1,75 @@
+<tui-root>
+  <div class="page">
+    <!-- Header -->
+    <header class="page__header">
+      <div class="page__title">
+        <h1 class="tui-text_h3">Default Page</h1>
+        <p class="tui-text_body-m tui-text_secondary">
+          Lorem Ipsum Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+          sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...
+        </p>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="page__content">
+      <!-- Card 1 -->
+      <section tuiSurface="raised" class="card">
+        <h2 class="tui-text_h6">Thông tin kỹ thuật</h2>
+        <ul class="tui-list">
+          <li class="tui-list__item">Angular 21</li>
+          <li class="tui-list__item">Taiga UI v4.65</li>
+          <li class="tui-list__item">Standalone Component</li>
+          <li class="tui-list__item">Reactive form</li>
+          <li class="tui-list__item">Manage state by Signal</li>
+          <li class="tui-list__item">
+            AG-GRID and Custom cell by ICellRendererAngularComp
+          </li>
+        </ul>
+      </section>
+
+      <!-- Card 2: Dialog test -->
+      <section tuiSurface="raised" class="card">
+        <h2 class="tui-text_h6">Test dialogs</h2>
+
+        <div class="dialog-actions">
+          <button
+            tuiButton
+            size="m"
+            appearance="secondary"
+            (click)="openConfirmDelete()"
+          >
+            Confirm Delete
+          </button>
+
+          <button
+            tuiButton
+            size="m"
+            appearance="secondary"
+            (click)="openGuardBlock()"
+          >
+            Guard Block
+          </button>
+
+          <button
+            tuiButton
+            size="m"
+            appearance="secondary"
+            (click)="openPaymentCreated()"
+          >
+            Payment Created
+          </button>
+
+          <button
+            tuiButton
+            size="m"
+            appearance="secondary"
+            (click)="openPaymentDetail()"
+          >
+            Payment Detail
+          </button>
+        </div>
+      </section>
+    </section>
+  </div>
+</tui-root>

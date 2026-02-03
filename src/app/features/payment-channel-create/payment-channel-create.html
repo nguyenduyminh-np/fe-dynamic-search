@@ -20,21 +20,26 @@
 
   <tui-loader [showLoader]="isLoading()" [overlay]="true" size="l">
     <form [formGroup]="form" (ngSubmit)="submit()" id="createForm">
-      <div formGroupName="general">
-        <app-general-payment-input
-          [connectionNameOptions]="connectionNameOptions()"
-        />
+      <div formGroupName="general" class="form-card">
+        <h3 class="card-title">Thông tin chung</h3>
+        <div class="form-grid general-payment-input">
+          <app-payment-name-field />
+          <app-connection-name-select [options]="connectionNameOptions()" />
+        </div>
       </div>
 
-      <div formGroupName="detail">
-        <app-detail-payment-input
-          [currencyCodeOptions]="currencyCodeOptions()"
-          [msgStandardOptions]="msgStandardOptions()"
-          [channelStatusOptions]="channelStatusOptions()"
-          [paraStatusOptions]="paraStatusOptions()"
-          [webViewOptions]="webViewOptions()"
-          [activeStatusOptions]="activeStatusOptions()"
-        />
+      <div formGroupName="detail" class="form-card">
+        <h3 class="card-title">CHI TIẾT</h3>
+        <div class="status-layout-wrapper">
+          <div class="status-inputs-grid">
+            <app-currency-code-select [options]="currencyCodeOptions()" />
+            <app-msg-standard-select [options]="msgStandardOptions()" />
+            <app-channel-status-select [options]="channelStatusOptions()" />
+            <app-para-status-select [options]="paraStatusOptions()" />
+            <app-web-view-select [options]="webViewOptions()" />
+            <app-active-status-select [options]="activeStatusOptions()" />
+          </div>
+        </div>
       </div>
 
       <div formGroupName="json">

@@ -1,0 +1,72 @@
+:host {
+  display: block;
+}
+
+/* Layout wrapper only (NO card) */
+.wrap {
+  width: min(520px, 92vw);
+  box-sizing: border-box;
+}
+
+/* Intro text */
+.intro {
+  margin: 0 0 0.75rem;
+  line-height: 1.6;
+  color: var(--tui-text-01);
+}
+
+/* Info block (content surface, not 2nd card) */
+.summary {
+  background: var(--tui-base-02);
+  border: 1px solid var(--tui-base-03);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  line-height: 1.5;
+  color: var(--tui-text-01);
+}
+
+.label {
+  font-weight: 700;
+  color: var(--tui-text-02);
+  white-space: nowrap;
+}
+
+.value {
+  min-width: 0;
+  word-break: break-word;
+  opacity: 0.95;
+}
+
+/* Actions – centered CTA group (banking standard) */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--tui-base-03);
+}
+
+.actions [tuiButton] {
+  min-width: 8rem; /* 128px */
+}
+
+/* Mobile */
+@media (max-width: 420px) {
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .actions [tuiButton] {
+    width: 100%;
+    min-width: 0;
+  }
+}

@@ -4,12 +4,16 @@ import { Router } from '@angular/router';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
 import { PaymentService } from '../../core/services/payment-channel.service';
-import { PaymentChannel } from '../../core/models/para-payment-channel.model';
+import {
+  PaymentChannel,
+  PaymentChannelDeleteResponse,
+  PaymentChannelDetailRequest,
+} from '../../core/models/para-payment-channel.model';
 import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
-import { ParaPaymentCreatedDialog } from '../payment-created-dialog/payment-created-dialog';
 import { TuiAlertService, TuiDialogService } from '@taiga-ui/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ConfirmDeleteDialog } from '../confirm-delete-dialog/confirm-delete-dialog';
+import { ConfirmDeleteDialog } from '../dialogs/confirm-delete-dialog/confirm-delete-dialog';
+import { PaymentDetailDialog } from '../dialogs/payment-detail-dialog/payment-detail-dialog';
 
 type ActionParams = ICellRendererParams<PaymentChannel> & {
   onDeleted?: () => void;
@@ -24,19 +28,21 @@ type ActionParams = ICellRendererParams<PaymentChannel> & {
 })
 export class ActionCellRender implements ICellRendererAngularComp {
   private readonly paymentService = inject(PaymentService);
-  private readonly router = inject(Router);
   private readonly injector = inject(Injector);
   private readonly dialogs = inject(TuiDialogService);
   private readonly alert = inject(TuiAlertService);
 
   private params!: ActionParams;
+  // name
   private paymentChannel!: string;
-  private ID!: string;
+
+  // ID
+  private ID?: number;
 
   agInit(params: ActionParams): void {
     this.params = params;
     this.paymentChannel = params.data?.paymentChannel ?? '';
-    this.ID = params.data?.id ?? '';
+    this.ID = params.data?.id ?? 0;
   }
 
   refresh(params: ActionParams): boolean {
@@ -44,19 +50,32 @@ export class ActionCellRender implements ICellRendererAngularComp {
     return true;
   }
 
-  goDetail(): void {
-    this.router.navigate(['/payment-channels', this.paymentChannel, 'detail']);
+  protected showDetailDialog(): void {
+    console.log('GET DETAIL with ID: ' + this.ID);
+    var pc = this.paymentService.getDetail({
+      id: this.ID,
+    } as PaymentChannelDetailRequest);
+    console.log(pc);
+    this.dialogs
+      .open(new PolymorpheusComponent(PaymentDetailDialog, this.injector), {
+        data: this.ID,
+        label: 'THÔNG TIN CHI TIẾT',
+        size: 'l',
+        dismissible: true,
+        closeable: true,
+      })
+      .subscribe();
   }
 
-  goEdit(): void {
-    this.router.navigate(['/payment-channels', this.paymentChannel, 'edit']);
+  goEdit() {
+    throw new Error('Method not implemented.');
   }
 
-  onDelete(): void {
+  onDelete(): boolean {
     const id = this.ID;
     if (!id) {
-      this.showAlert(null);
-      return;
+      this.showAlertError({ message: 'Không tìm thấy ID để xoá.' });
+      return false;
     }
 
     this.dialogs
@@ -68,25 +87,52 @@ export class ActionCellRender implements ICellRendererAngularComp {
           size: 'm',
           dismissible: true,
           closeable: true,
-        }
+        },
       )
       .subscribe((confirmed) => {
         if (!confirmed) return;
 
         this.paymentService.delete({ id }).subscribe({
-          next: () => this.params.onDeleted?.(),
-          error: (err) => this.showAlert(err),
+          next: (res: PaymentChannelDeleteResponse) => {
+            // status = 200: delete
+            if (res?.status === 200) {
+              // refresh table
+              this.params.onDeleted?.();
+
+              // show success message from API
+              const successMsg = res.data || res.message || 'Xoá thành công.';
+              this.showAlertSuccess(successMsg);
+              return;
+            }
+          },
+          error: (err) => this.showAlertError(err),
         });
       });
+
+    return true;
   }
 
-  showAlert(err: unknown | null): void {
+  private showAlertSuccess(message: string): void {
+    this.alert
+      .open(message, {
+        label: 'Thành công',
+        appearance: 'positive',
+        autoClose: 3000,
+        closeable: true,
+      })
+      .subscribe();
+  }
+
+  private showAlertError(err: unknown | { message?: string } | null): void {
     const message =
       err instanceof HttpErrorResponse
-        ? err.error?.message || err.message || 'Xoá thất bại. Vui lòng thử lại.'
+        ? // Backend error chuẩn: ApiErrorResponse.message
+          (typeof err.error === 'string' ? err.error : err.error?.message) ||
+          err.message ||
+          'Xoá thất bại. Vui lòng thử lại.'
         : typeof (err as any)?.message === 'string'
-        ? (err as any).message
-        : 'Xoá thất bại. Vui lòng thử lại.';
+          ? (err as any).message
+          : 'Xoá thất bại. Vui lòng thử lại.';
 
     this.alert
       .open(message, {

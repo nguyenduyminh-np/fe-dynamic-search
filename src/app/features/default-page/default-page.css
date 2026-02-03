@@ -1,0 +1,137 @@
+:host {
+  display: block;
+}
+
+/* =========================
+   Tokens (design variables)
+   ========================= */
+.page {
+  --page-padding: 24px;
+  --page-gap: 24px;
+
+  --header-gap: 16px;
+
+  --content-gap: 16px;
+  --content-columns: 1;
+
+  --card-padding: 16px;
+  --card-radius: 12px;
+
+  --text-max-width: 72ch;
+
+  /* button group */
+  --button-group-gap: 12px;
+
+  padding: var(--page-padding);
+  display: flex;
+  flex-direction: column;
+  gap: var(--page-gap);
+  min-width: 0;
+}
+
+/* =========================
+   Header
+   ========================= */
+.page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--header-gap);
+  min-width: 0;
+}
+
+.page__title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.page__title > p {
+  max-width: var(--text-max-width);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.page__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* =========================
+   Content grid
+   ========================= */
+.page__content {
+  display: grid;
+  grid-template-columns: repeat(var(--content-columns), minmax(0, 1fr));
+  gap: var(--content-gap);
+  align-items: start;
+  min-width: 0;
+}
+
+/* =========================
+   Surface card
+   ========================= */
+.card {
+  padding: var(--card-padding);
+  border-radius: var(--card-radius);
+  min-width: 0;
+}
+
+.card > h2 {
+  margin: 0 0 12px 0;
+}
+
+.card .tui-list {
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================
+   Dialog test buttons
+   ========================= */
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--button-group-gap);
+  margin-top: 12px;
+}
+
+/* =========================
+   Responsive
+   ========================= */
+@media (min-width: 768px) {
+  .page {
+    --content-columns: 2;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .page__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .page__actions {
+    justify-content: flex-start;
+  }
+
+  .page {
+    --page-padding: 16px;
+    --page-gap: 16px;
+  }
+}
+
+/* Mobile – button full width */
+@media (max-width: 420px) {
+  .dialog-actions {
+    flex-direction: column;
+  }
+
+  .dialog-actions [tuiButton] {
+    width: 100%;
+  }
+}

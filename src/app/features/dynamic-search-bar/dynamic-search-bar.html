@@ -1,1 +1,109 @@
-<div class="dynamic-search-bar"></div>
+<div class="dynamic-search-bar">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div formGroupName="criteria" class="search-grid">
+      <div class="form-item">
+        <app-payment-name-field />
+      </div>
+
+      <div class="form-item">
+        <app-common-select-input
+          formControlName="connectionName"
+          label="Phương thức kết nối"
+          placeholder="Chọn phương thức kết nối"
+          [options]="connectionNameOptions()"
+          [loading]="isLoading()"
+          [allowClear]="true"
+          [strict]="true"
+        />
+      </div>
+
+      <div class="form-item">
+        <app-common-select-input
+          formControlName="currencyCode"
+          label="Mã loại tiền tệ"
+          placeholder="Chọn mã loại tiền tệ"
+          [options]="currencyCodeOptions()"
+          [loading]="isLoading()"
+          [allowClear]="true"
+          [strict]="true"
+        />
+      </div>
+
+      <div class="form-item">
+        <app-common-select-input
+          formControlName="msgStandard"
+          label="Chuẩn tin điện tử"
+          placeholder="Chọn loại chuẩn tin điện tử"
+          [options]="msgStandardOptions()"
+          [loading]="isLoading()"
+          [allowClear]="true"
+          [strict]="true"
+        />
+      </div>
+
+      <div class="form-item">
+        <app-common-select-input
+          formControlName="channelStatus"
+          label="Trạng thái kênh thanh toán"
+          placeholder="Chọn trạng thái của kênh thanh toán"
+          [options]="channelStatusOptions()"
+          [loading]="isLoading()"
+          [allowClear]="true"
+          [strict]="true"
+        />
+      </div>
+
+      <div class="form-item">
+        <app-common-select-input
+          formControlName="paraStatus"
+          label="Trạng thái tham số"
+          placeholder="Chọn trạng thái tham số"
+          [options]="paraStatusOptions()"
+          [loading]="isLoading()"
+          [allowClear]="true"
+          [strict]="true"
+        />
+      </div>
+
+      <div class="form-item">
+        <app-common-select-input
+          formControlName="webView"
+          label="Hiển thị giao diện web"
+          placeholder="Chọn chế độ hiển thị giao diện web"
+          [options]="webViewOptions()"
+          [loading]="isLoading()"
+          [allowClear]="true"
+          [strict]="true"
+        />
+      </div>
+
+      <div class="form-item">
+        <app-common-select-input
+          formControlName="activeStatus"
+          label="Trạng thái hoạt động"
+          placeholder="Chọn trạng thái hoạt động"
+          [options]="activeStatusOptions()"
+          [loading]="isLoading()"
+          [allowClear]="true"
+          [strict]="true"
+        />
+      </div>
+
+      <div class="action-group">
+        <button
+          tuiButton
+          appearance="secondary"
+          size="m"
+          type="button"
+          (click)="resetAndEmit()"
+        >
+          Làm mới
+        </button>
+
+        <button tuiButton appearance="primary" size="m" type="submit">
+          Tìm kiếm
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

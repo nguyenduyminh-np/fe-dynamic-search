@@ -1,28 +1,67 @@
 <tui-app-bar class="header">
   <div class="header-inner">
     <div class="header-grid">
-      <a
-        tuiButton
-        appearance="secondary"
-        class="nav-btn"
-        [routerLink]="base"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: true }"
-      >
-        KÊNH THANH TOÁN
-      </a>
+      <div class="nav-group">
+        <a
+          tuiButton
+          appearance="secondary"
+          class="nav-btn"
+          [routerLink]="['/']"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <i class="tuiIconHomeLarge mr-2"></i>Trang chủ
+        </a>
 
-      <a
-        tuiButton
-        appearance="secondary"
-        class="nav-btn"
-        [routerLink]="[base, 'create']"
-        routerLinkActive="active"
-      >
-        TẠO MỚI
-      </a>
+        <a
+          tuiButton
+          appearance="secondary"
+          class="nav-btn"
+          [routerLink]="base"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >Kênh thanh toán
+        </a>
 
-      <div class="search-placeholder">Search…</div>
+        <a
+          tuiButton
+          appearance="secondary"
+          class="nav-btn"
+          [routerLink]="[base, 'create']"
+          routerLinkActive="active"
+          >Tạo mới
+        </a>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="auth-group">
+        <ng-container *ngIf="isLoggedIn(); else guest">
+          <a tuiButton appearance="secondary" class="nav-btn" (click)="logout()"
+            >Đăng xuất
+          </a>
+        </ng-container>
+
+        <ng-template #guest>
+          <a
+            tuiButton
+            appearance="secondary"
+            class="nav-btn"
+            [routerLink]="['/login']"
+            routerLinkActive="active"
+            >Đăng nhập
+          </a>
+
+          <a
+            tuiButton
+            appearance="primary"
+            class="nav-btn btn-cta"
+            [routerLink]="['/register']"
+            routerLinkActive="active"
+            >Đăng ký
+          </a>
+        </ng-template>
+      </div>
     </div>
   </div>
 </tui-app-bar>

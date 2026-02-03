@@ -1,44 +1,120 @@
-.header {
+/* --- 1. Variables & Global Settings --- */
+:host {
+  /* Định nghĩa biến màu sắc để dễ quản lý */
+  --header-height: 64px;
+  --header-bg: #ffffff;
+  --header-border: #e5e7eb;
+  --text-main: #4b5563;
+  --text-hover: #111827;
+  --primary-color: #2563eb; /* Blue-600 */
+  --primary-dark-hover: #1d4ed8; /* Blue-700 (Dùng thay cho darken 8%) */
+  --primary-dark-active: #1e40af; /* Blue-800 (Dùng thay cho darken 10%) */
+  --bg-hover: #f3f4f6;
+  --bg-active: #eff6ff;
+  --shadow-color: rgba(37, 99, 235, 0.2); /* Shadow màu xanh */
+
+  display: block;
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: transparent;
+  width: 100%;
+}
+
+/* --- 2. Main Header Bar --- */
+tui-app-bar.header {
+  height: var(--header-height);
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+  padding: 0;
 }
 
 .header-inner {
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  height: 100%;
+  padding: 0 24px;
 }
 
+/* --- 3. Layout Grid (Flexbox) --- */
 .header-grid {
-  width: min(100%, 900px);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
   align-items: center;
-  text-align: center;
+  height: 100%;
+  width: 100%;
 }
 
+.nav-group,
+.auth-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Element quan trọng: Đẩy 2 nhóm sang 2 bên */
+.spacer {
+  flex-grow: 1;
+}
+
+/* --- 4. Navigation Buttons Styling --- */
 .nav-btn {
-  width: 100%;
+  /* Override Tui Default Styles */
+  height: 40px !important;
+  border-radius: 6px !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+
+  /* Typography */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.875rem !important; /* 14px */
+  font-weight: 500 !important;
+  color: var(--text-main) !important;
+  text-transform: none !important;
+  padding: 0 16px !important;
+
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  font-weight: 500;
 }
 
-/* active */
-a.active {
-  font-weight: 600;
-  text-decoration: underline;
-  font-weight: bold;
+/* Icon chỉnh vị trí */
+.nav-btn i {
+  font-size: 1.1em;
+  display: inline-block;
+  margin-right: 6px;
+  margin-bottom: 1px;
 }
 
-.search-placeholder {
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 12px;
-  background: var(--tui-base-03);
-  color: var(--tui-text-03);
-  font-size: 0.875rem;
-  text-align: center;
-  user-select: none;
+/* State: Hover */
+.nav-btn:hover {
+  background-color: var(--bg-hover) !important;
+  color: var(--text-hover) !important;
+}
+
+/* State: Active (Router Link Active) */
+.nav-btn.active {
+  background-color: var(--bg-active) !important;
+  color: var(--primary-color) !important;
+  font-weight: 600 !important;
+}
+
+/* --- 5. Special Button: CTA (Call to Action) --- */
+/* Nút Đăng ký cần nổi bật */
+.btn-cta {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.btn-cta:hover {
+  background-color: var(--primary-dark-hover) !important;
+  box-shadow: 0 4px 6px -1px var(--shadow-color);
+}
+
+.btn-cta.active {
+  background-color: var(--primary-dark-active) !important;
+  color: #ffffff !important;
 }

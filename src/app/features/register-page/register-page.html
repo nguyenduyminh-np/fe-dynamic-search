@@ -1,1 +1,68 @@
-<p>register-page works!</p>
+<section class="auth-page">
+  <div class="auth-container">
+    <form
+      tuiAppearance="floating"
+      tuiCardLarge
+      tuiForm="m"
+      [formGroup]="form"
+      [style.max-width.rem]="32"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <header tuiHeader>
+        <h2 tuiTitle>Đăng ký</h2>
+        <tui-notification appearance="info">
+          <h3 tuiTitle>
+            Lưu ý
+            <span tuiSubtitle
+              >Không chia sẻ thông tin tài khoản cho bất kỳ ai</span
+            >
+          </h3>
+        </tui-notification>
+      </header>
+
+      <tui-textfield>
+        <label tuiLabel>Tên đăng nhập</label>
+        <input
+          tuiTextfield
+          formControlName="username"
+          placeholder="Nhập tên đăng nhập"
+        />
+      </tui-textfield>
+
+      <tui-error
+        formControlName="username"
+        [error]="[] | tuiFieldError | async"
+      />
+
+      <tui-textfield>
+        <label tuiLabel>Nhập mật khẩu gồm 8 chữ số</label>
+        <input
+          formControlName="password"
+          placeholder="********"
+          tuiTextfield
+          type="password"
+        />
+        <tui-icon tuiPassword />
+      </tui-textfield>
+
+      <tui-error
+        formControlName="password"
+        [error]="[] | tuiFieldError | async"
+      />
+
+      <footer>
+        <button tuiButton appearance="primary" type="submit">
+          <span>Đăng ký</span>
+        </button>
+        <span class="spinner" *ngIf="loading()" aria-hidden="true"></span>
+        <button tuiButton appearance="secondary" (click)="onReset()">
+          Reset
+        </button>
+      </footer>
+      <div class="links">
+        <a routerLink="/login">Đã có tài khoản ? Đăng nhập</a>
+      </div>
+    </form>
+  </div>
+</section>

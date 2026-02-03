@@ -1,1 +1,48 @@
-<p>unauthorized-page works!</p>
+<section class="page">
+  <button
+    tuiButton
+    appearance="icon"
+    routerLink=""
+    class="back-btn"
+    title="Trang chủ"
+  >
+    <img
+      src="/assets/icons/turn-back.png"
+      alt="Back"
+      style="height: 24px; width: 24px"
+    />
+  </button>
+  <div class="container">
+    <div class="content">
+      <div class="code">403</div>
+
+      <h1 class="title">Không có quyền truy cập</h1>
+      <p class="desc">
+        Bạn không có quyền truy cập hệ thống này. Nếu bạn nghĩ đây là nhầm lẫn,
+        vui lòng liên hệ quản trị viên.
+      </p>
+
+      <div class="actions">
+        <button
+          tuiButton
+          type="button"
+          appearance="primary"
+          size="m"
+          (click)="goHome()"
+        >
+          Về trang chủ
+        </button>
+
+        <button
+          tuiButton
+          type="button"
+          appearance="secondary"
+          size="m"
+          (click)="goBack()"
+        >
+          Quay lại
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

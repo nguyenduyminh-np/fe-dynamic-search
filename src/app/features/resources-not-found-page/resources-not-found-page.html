@@ -1,1 +1,45 @@
-<p>resources-not-found-page works!</p>
+<section class="page">
+  <button
+    tuiButton
+    appearance="icon"
+    routerLink=""
+    class="back-btn"
+    title="Trang chủ"
+  >
+    <img
+      src="/assets/icons/turn-back.png"
+      alt="Back"
+      style="height: 24px; width: 24px"
+    />
+  </button>
+  <div class="container">
+    <div class="content">
+      <div class="code">404</div>
+
+      <h1 class="title">Không tìm thấy trang</h1>
+      <p class="desc">Trang bạn đang tìm không tồn tại hoặc đã bị di chuyển.</p>
+
+      <div class="actions">
+        <button
+          tuiButton
+          type="button"
+          appearance="primary"
+          size="m"
+          (click)="goHome()"
+        >
+          Về trang chủ
+        </button>
+
+        <button
+          tuiButton
+          type="button"
+          appearance="secondary"
+          size="m"
+          (click)="goBack()"
+        >
+          Quay lại
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
