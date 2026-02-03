@@ -38,9 +38,10 @@ export interface AuthTokensResponse extends AuthResponse {
   refreshToken: string;
   tokenType: 'Bearer' | string;
   expiresInSeconds: number;
+  message: string;
 }
 
-// logout response
+// Register response
 export interface LogoutResponse {
   message: string;
 }

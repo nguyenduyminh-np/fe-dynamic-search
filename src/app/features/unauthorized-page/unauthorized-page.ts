@@ -1,10 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-unauthorized-page',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './unauthorized-page.html',
   styleUrl: './unauthorized-page.css',
 })

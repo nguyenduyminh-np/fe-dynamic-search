@@ -2,12 +2,13 @@ import { inject, Injectable, signal } from '@angular/core';
 import { finalize, forkJoin } from 'rxjs';
 import { PaymentService } from '../services/payment-channel.service';
 import {
-  ActiveStatus,
-  ChannelStatus,
-  CurrencyCode,
+  ActiveStatusOption,
+  ChannelStatusOption,
+  CurrencyCodeOption,
+  Option,
   ParaStatusOption,
   WebViewOption,
-} from '../../shared/util/payment-channel-create.util';
+} from '../models/common.model';
 
 @Injectable()
 export class PaymentChannelCreateFacade {
@@ -17,14 +18,15 @@ export class PaymentChannelCreateFacade {
   private readonly _loading = signal(false);
   private readonly _error = signal<string | null>(null);
 
-  private readonly _connectionNameOptions = signal<readonly string[]>([]);
-
-  private readonly _msgStandardOptions = signal<readonly string[]>([]);
-
   readonly isLoading = this._loading.asReadonly();
   readonly errorMsg = this._error.asReadonly();
 
+  private readonly _connectionNameOptions = signal<readonly Option<string>[]>(
+    []
+  );
   readonly connectionNameOptions = this._connectionNameOptions.asReadonly();
+
+  private readonly _msgStandardOptions = signal<readonly Option<string>[]>([]);
   readonly msgStandardOptions = this._msgStandardOptions.asReadonly();
 
   private readonly _webViewOptions = signal<readonly WebViewOption[]>([]);
@@ -33,13 +35,19 @@ export class PaymentChannelCreateFacade {
   private readonly _paraStatusOptions = signal<readonly ParaStatusOption[]>([]);
   readonly paraStatusOptions = this._paraStatusOptions.asReadonly();
 
-  private readonly _currencyCodeOptions = signal<readonly CurrencyCode[]>([]);
+  private readonly _currencyCodeOptions = signal<readonly CurrencyCodeOption[]>(
+    []
+  );
   readonly currencyCodeOptions = this._currencyCodeOptions.asReadonly();
 
-  private readonly _channelStatusOptions = signal<readonly ChannelStatus[]>([]);
+  private readonly _channelStatusOptions = signal<
+    readonly ChannelStatusOption[]
+  >([]);
   readonly channelStatusOptions = this._channelStatusOptions.asReadonly();
 
-  private readonly _activeStatusOptions = signal<readonly ActiveStatus[]>([]);
+  private readonly _activeStatusOptions = signal<readonly ActiveStatusOption[]>(
+    []
+  );
   readonly activeStatusOptions = this._activeStatusOptions.asReadonly();
 
   init(): void {

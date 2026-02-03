@@ -1,0 +1,32 @@
+<div class="wrap">
+  <header tuiHeader>
+    <tui-notification appearance="info" class="tui-space_top-3">
+      <h3 tuiTitle>
+        {{ data.title }}
+        <span tuiSubtitle>{{ data.content }}</span>
+      </h3>
+    </tui-notification>
+  </header>
+
+  <div class="actions tui-space_top-4">
+    <button
+      tuiButton
+      size="m"
+      type="button"
+      appearance="primary"
+      (click)="goLogin()"
+    >
+      Đăng nhập
+    </button>
+
+    <button
+      tuiButton
+      size="m"
+      type="button"
+      appearance="secondary"
+      (click)="close()"
+    >
+      Đóng
+    </button>
+  </div>
+</div>

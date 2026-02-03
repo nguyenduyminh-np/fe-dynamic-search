@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-resources-not-found-page',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './resources-not-found-page.html',
   styleUrl: './resources-not-found-page.css',
 })

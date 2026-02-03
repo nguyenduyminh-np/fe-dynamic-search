@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   Injector,
+  OnInit,
   ViewEncapsulation,
   inject,
-  OnInit,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -12,8 +12,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { finalize } from 'rxjs';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { finalize, tap } from 'rxjs';
 
 import {
   TuiAlertService,
@@ -28,14 +28,31 @@ import {
   PaymentChannel,
   PaymentChannelCreateRequest,
 } from '../../core/models/para-payment-channel.model';
-import { ParaPaymentCreatedDialog } from '../../components/payment-created-dialog/payment-created-dialog';
-import { GeneralPaymentInput } from '../../components/group-input/general-payment-input/general-payment-input';
-import { DetailPaymentInput } from '../../components/group-input/detail-payment-input/detail-payment-input';
-import { JsonPaymentInput } from '../../components/group-input/json-payment-input/json-payment-input';
 
 import { PaymentChannelCreateFacade } from '../../core/facades/payment-channel-create.facade';
-import { jsonValidator } from '../../core/validators/json.validator';
-import { ParaStatusOption } from '../../shared/util/payment-channel-create.util';
+
+import { PaymentNameField } from '../../components/component-input-v1/payment-name-field/payment-name-field';
+import { JsonPaymentInput } from '../../components/json-payment-input/json-payment-input';
+import {
+  getCachedJsonObject,
+  jsonObjectValidator,
+} from '../../shared/util/json.util';
+import { ParaPaymentCreatedDialog } from '../../components/dialogs/payment-created-dialog/payment-created-dialog';
+import { ConnectionNameSelect } from '../../components/component-input-v1/connection-name-select/connection-name-select';
+import { CurrencyCodeSelect } from '../../components/component-input-v1/currency-code-select/currency-code-select';
+import { MessageStandardSelect } from '../../components/component-input-v1/message-standard-select/message-standard-select';
+import { ChannelStatusSelect } from '../../components/component-input-v1/channel-status-select/channel-status-select';
+import { ParaStatusSelect } from '../../components/component-input-v1/para-status-select/para-status-select';
+import { WebViewSelect } from '../../components/component-input-v1/web-view-select/web-view-select';
+import { ActiveStatusSelect } from '../../components/component-input-v1/active-status-select/active-status-select';
+import {
+  ActiveStatusOption,
+  ChannelStatusOption,
+  CurrencyCodeOption,
+  Option,
+  ParaStatusOption,
+  WebViewOption,
+} from '../../core/models/common.model';
 
 @Component({
   selector: 'app-para-payment-create',
@@ -47,9 +64,15 @@ import { ParaStatusOption } from '../../shared/util/payment-channel-create.util'
     RouterLink,
     TuiLoader,
     TuiButton,
-    GeneralPaymentInput,
-    DetailPaymentInput,
     JsonPaymentInput,
+    PaymentNameField,
+    ConnectionNameSelect,
+    CurrencyCodeSelect,
+    MessageStandardSelect,
+    ChannelStatusSelect,
+    ParaStatusSelect,
+    WebViewSelect,
+    ActiveStatusSelect,
   ],
   templateUrl: './payment-channel-create.html',
   styleUrls: ['./payment-channel-create.css'],
@@ -57,12 +80,14 @@ import { ParaStatusOption } from '../../shared/util/payment-channel-create.util'
 })
 export class PaymentChannelCreate implements OnInit {
   private readonly fb = inject(FormBuilder);
+
+  private readonly facade = inject(PaymentChannelCreateFacade);
   private readonly paymentService = inject(PaymentService);
+
   private readonly dialogs = inject(TuiDialogService);
   private readonly injector = inject(Injector);
   private readonly alerts = inject(TuiAlertService);
-  private readonly facade = inject(PaymentChannelCreateFacade);
-  private activatedRoute = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   protected readonly isLoading = this.facade.isLoading;
   protected readonly errorMsg = this.facade.errorMsg;
@@ -70,14 +95,29 @@ export class PaymentChannelCreate implements OnInit {
   protected readonly currencyCodeOptions = this.facade.currencyCodeOptions;
   protected readonly msgStandardOptions = this.facade.msgStandardOptions;
   protected readonly channelStatusOptions = this.facade.channelStatusOptions;
+
   protected readonly paraStatusOptions = this.facade.paraStatusOptions;
   protected readonly webViewOptions = this.facade.webViewOptions;
+
   protected readonly activeStatusOptions = this.facade.activeStatusOptions;
 
-  // check route info
-  constructor() {
-    console.log(this.activatedRoute);
-  }
+  private readonly DEFAULT_FORM_VALUE = {
+    general: {
+      paymentChannel: '',
+      connectionName: null as Option<string> | null,
+    },
+    detail: {
+      channelStatus: null as ChannelStatusOption | null,
+      currencyCode: null as CurrencyCodeOption | null,
+      msgStandard: null as Option<string> | null,
+      paraStatus: null as ParaStatusOption | null,
+      webView: null as WebViewOption | null,
+      activeStatus: null as ActiveStatusOption | null,
+    },
+    json: {
+      jsonDataText: '{}',
+    },
+  };
 
   ngOnInit(): void {
     this.facade.init();
@@ -90,122 +130,109 @@ export class PaymentChannelCreate implements OnInit {
         Validators.minLength(8),
         Validators.maxLength(50),
       ]),
-      connectionName: this.fb.nonNullable.control<string>('', [
+      connectionName: this.fb.nonNullable.control<Option<string> | null>(null, [
         Validators.required,
         Validators.maxLength(50),
       ]),
     }),
 
     detail: this.fb.nonNullable.group({
-      channelStatus: this.fb.nonNullable.control<string>('', [
+      channelStatus: this.fb.nonNullable.control<ChannelStatusOption | null>(
+        null,
+        [Validators.required],
+      ),
+
+      currencyCode: this.fb.nonNullable.control<CurrencyCodeOption | null>(
+        null,
+        [Validators.required],
+      ),
+
+      msgStandard: this.fb.nonNullable.control<Option<string> | null>(null, [
         Validators.required,
       ]),
-      currencyCode: this.fb.nonNullable.control<string>('', [
-        Validators.pattern(/^[A-Z]{3}$/),
-      ]),
-      msgStandard: this.fb.nonNullable.control<string>('', [
-        Validators.required,
-      ]),
+
       paraStatus: this.fb.control<ParaStatusOption | null>(null, [
         Validators.required,
       ]),
-      webView: this.fb.control<0 | 1 | null>(null, [Validators.required]),
-      activeStatus: this.fb.control<0 | 1 | null>(null, [Validators.required]),
+      webView: this.fb.control<WebViewOption | null>(null, [
+        Validators.required,
+      ]),
+      activeStatus: this.fb.control<ActiveStatusOption | null>(null, [
+        Validators.required,
+      ]),
     }),
 
     json: this.fb.nonNullable.group({
-      jsonDataText: this.fb.nonNullable.control('', [jsonValidator(30)]),
+      jsonDataText: this.fb.nonNullable.control('{}', [
+        jsonObjectValidator(100),
+      ]),
     }),
   });
 
   protected submit(): void {
     this.facade.clearError();
-
     if (this.form.invalid) {
       this.form.markAllAsTouched();
 
-      const c = this.form.controls.general.controls.paymentChannel;
-      if (c.invalid) {
-        this.showErrorDialog(this.getErrorMessage(c));
+      const paymentChannelCtrl =
+        this.form.controls.general.controls.paymentChannel;
+      if (paymentChannelCtrl.invalid) {
+        this.showErrorDialog(this.getErrorMessage(paymentChannelCtrl));
       } else {
         this.showErrorDialog(
-          'Dữ liệu không hợp lệ / Vui lòng nhập đầy đủ các trường !'
+          'Dữ liệu không hợp lệ / Vui lòng nhập đầy đủ các trường !',
         );
       }
       return;
     }
-
-    let jsonData: Record<string, unknown> = {};
-    try {
-      const jsonText =
-        (this.form.controls.json.controls.jsonDataText.value ?? '').trim() ||
-        '{}';
-      jsonData = JSON.parse(jsonText);
-    } catch {
-      this.form.controls.json.controls.jsonDataText.setErrors({
-        jsonInvalid: 'JSON parse error',
-      });
-      this.form.controls.json.controls.jsonDataText.markAsTouched();
-      this.facade.setError('JSON Data không hợp lệ.');
-      return;
-    }
-
-    const paraStatusCtrl = this.form.controls.detail.controls.paraStatus;
-    const paraStatusOpt = paraStatusCtrl.value;
-
-    if (paraStatusOpt === null) {
-      paraStatusCtrl.setErrors({ required: true });
-      paraStatusCtrl.markAsTouched();
-      this.showErrorDialog('Vui lòng chọn Para Status');
-      return;
-    }
-
-    const webViewCtrl = this.form.controls.detail.controls.webView;
-    const webView = webViewCtrl.value;
-    if (webView === null) {
-      webViewCtrl.setErrors({ required: true });
-      webViewCtrl.markAsTouched();
-      this.showErrorDialog('Vui lòng chọn Web View');
-      return;
-    }
-
-    const activeCtrl = this.form.controls.detail.controls.activeStatus;
-    const activeStatus = activeCtrl.value;
-    if (activeStatus === null) {
-      activeCtrl.setErrors({ required: true });
-      activeCtrl.markAsTouched();
-      this.showErrorDialog('Vui lòng chọn Active Status');
-      return;
-    }
+    const jsonCtrl = this.form.controls.json.controls.jsonDataText;
+    const jsonData = getCachedJsonObject(jsonCtrl);
+    const channelStatusOpt =
+      this.form.controls.detail.controls.channelStatus.value!;
+    const currencyCodeOpt =
+      this.form.controls.detail.controls.currencyCode.value!;
+    const paraStatusOpt = this.form.controls.detail.controls.paraStatus.value!;
+    const webViewOpt = this.form.controls.detail.controls.webView.value!;
+    const activeStatus = this.form.controls.detail.controls.activeStatus.value!;
 
     const request: PaymentChannelCreateRequest = {
       paymentChannel: this.form.controls.general.controls.paymentChannel.value,
-      connectionName: this.form.controls.general.controls.connectionName.value,
-
-      channelStatus: this.form.controls.detail.controls.channelStatus.value,
-      currencyCode: this.form.controls.detail.controls.currencyCode.value,
-      msgStandard: this.form.controls.detail.controls.msgStandard.value,
-      webView,
+      connectionName:
+        this.form.controls.general.controls.connectionName.value?.value,
+      channelStatus: channelStatusOpt.value,
+      currencyCode: currencyCodeOpt.value,
+      msgStandard: this.form.controls.detail.controls.msgStandard.value?.value,
+      webView: webViewOpt.value,
       paraStatus: paraStatusOpt.value,
-      activeStatus,
-
-      jsonData,
+      activeStatus: activeStatus.value,
+      jsonData: jsonData,
     };
 
-    this.facade.setLoading(true);
+    console.log(request.paymentChannel);
+    console.log(request.msgStandard);
+    console.log(request.webView);
+    console.log(request.jsonData);
 
+    this.facade.setLoading(true);
+    console.log(request);
     this.paymentService
       .create(request)
-      .pipe(finalize(() => this.facade.setLoading(false)))
+      .pipe(
+        tap(() => {
+          console.log('CREATE PAYMENT CHANNEL REQUEST:', request);
+        }),
+        finalize(() => this.facade.setLoading(false)),
+      )
       .subscribe({
         next: (res: any) => {
           if (res?.status === 201 && res?.data) {
             const created = res.data as PaymentChannel;
             this.openCreatedDialog(created);
             this.resetForm();
+            this.router.navigate(['/']);
           } else {
             this.facade.setError(
-              res?.message ?? 'Tạo mới thất bại (response không đúng format).'
+              res?.message ?? 'Tạo mới thất bại (response không đúng format).',
             );
           }
         },
@@ -217,23 +244,13 @@ export class PaymentChannelCreate implements OnInit {
         },
       });
   }
-  protected resetForm(): void {
-    this.form.setValue({
-      general: { paymentChannel: '', connectionName: '' },
-      detail: {
-        channelStatus: 'ACTIVE',
-        currencyCode: 'VND',
-        msgStandard: 'JSON',
-        webView: null,
-        paraStatus: null,
-        activeStatus: null,
-      },
-      json: { jsonDataText: '' },
-    });
 
+  protected resetForm(): void {
+    this.form.reset(this.DEFAULT_FORM_VALUE);
     this.facade.clearError();
   }
 
+  // custom dialog
   private openCreatedDialog(created: PaymentChannel): void {
     this.dialogs
       .open(
@@ -244,11 +261,12 @@ export class PaymentChannelCreate implements OnInit {
           size: 'm',
           dismissible: false,
           closeable: true,
-        }
+        },
       )
       .subscribe();
   }
 
+  // alert
   private showErrorDialog(message: string): void {
     const msg =
       typeof this.errorMsg === 'function' ? this.errorMsg() : this.errorMsg;
@@ -264,16 +282,18 @@ export class PaymentChannelCreate implements OnInit {
   getErrorMessage(ctrl: AbstractControl | null): string {
     const e = ctrl?.errors;
     if (!e) return '';
-
+    if (e['jsonMustBeObject'])
+      return 'JSON phải là object (dạng { ... }), không phải array/giá trị đơn';
+    if (e['jsonTooManyKeys'])
+      return `JSON vượt quá số key tối đa ${e['jsonTooManyKeys'].maxKeys}`;
     if (e['required']) return 'Nhập đúng các trường bắt buộc';
     if (e['minlength'])
       return `Trường này yêu cầu tối thiểu ${e['minlength'].requiredLength} ký tự`;
     if (e['maxlength']) return `Tối đa ${e['maxlength'].requiredLength} ký tự`;
-    if (e['min']) return `Giá trị tối thiểu là ${e['min'].min}`;
-    if (e['max']) return `Giá trị tối đa là ${e['max'].max}`;
     if (e['pattern']) return 'Sai định dạng';
     if (e['jsonInvalid']) return 'JSON không hợp lệ';
-
+    if (e['jsonTooLong'])
+      return `JSON vượt quá độ dài tối đa ${e['jsonTooLong'].maxLength}`;
     return 'Dữ liệu không hợp lệ';
   }
 }

@@ -1,0 +1,90 @@
+<div class="payment-detail-wrap" *ngIf="detail$ | async as d">
+  <div class="detail-table" role="table">
+    <!-- Tên kênh thanh toán -->
+    <div class="row">
+      <div class="cell label">Tên kênh thanh toán</div>
+      <div class="cell value">
+        <span class="value-text">{{ d?.paymentChannel || '—' }}</span>
+      </div>
+    </div>
+
+    <!-- Phương thức kết nối -->
+    <div class="row">
+      <div class="cell label">Phương thức kết nối</div>
+      <div class="cell value">
+        <span class="value-text">
+          {{ displayValue('connectionName', d?.connectionName) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Mã loại tiền tệ -->
+    <div class="row">
+      <div class="cell label">Mã loại tiền tệ</div>
+      <div class="cell value">
+        <span class="value-text">
+          {{ displayValue('currencyCode', d?.currencyCode) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Chuẩn tin điện tử -->
+    <div class="row">
+      <div class="cell label">Chuẩn tin điện tử</div>
+      <div class="cell value">
+        <span class="value-text">
+          {{ displayValue('msgStandard', d?.msgStandard) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Trạng thái kênh thanh toán -->
+    <div class="row" role="row">
+      <div class="cell label" role="cell">Trạng thái kênh thanh toán</div>
+      <div class="cell value" role="cell">
+        <span
+          class="pill"
+          [ngClass]="pillFor('channelStatus', d?.channelStatus)"
+        >
+          {{ displayValue('channelStatus', d?.channelStatus) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Trạng thái tham số -->
+    <div class="row" role="row">
+      <div class="cell label" role="cell">Trạng thái tham số</div>
+      <div class="cell value" role="cell">
+        <span class="pill" [ngClass]="pillFor('paraStatus', d?.paraStatus)">
+          {{ displayValue('paraStatus', d?.paraStatus) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Hiển thị giao diện web -->
+    <div class="row" role="row">
+      <div class="cell label" role="cell">Hiển thị giao diện web</div>
+      <div class="cell value" role="cell">
+        <span class="pill" [ngClass]="pillFor('webView', d?.webView)">
+          {{ displayValue('webView', d?.webView) }}
+        </span>
+      </div>
+    </div>
+
+    <!-- Trạng thái hoạt động -->
+    <div class="row" role="row">
+      <div class="cell label" role="cell">Trạng thái hoạt động</div>
+      <div class="cell value" role="cell">
+        <span class="pill" [ngClass]="pillFor('activeStatus', d?.activeStatus)">
+          {{ displayValue('activeStatus', d?.activeStatus) }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button tuiButton size="m" appearance="primary" (click)="close()">
+      Đóng
+    </button>
+  </div>
+</div>

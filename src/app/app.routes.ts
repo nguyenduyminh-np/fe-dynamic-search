@@ -3,15 +3,20 @@ import { authCanMatch } from './core/guard/auth.guard.ts-guard';
 import { rolesCanMatch } from './core/guard/roles.guard.ts-guard';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'payment-channels' },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./features/default-page/default-page').then((m) => m.DefaultPage),
+    title: 'Default',
+  },
 
-  // auth endpoint public
   {
     path: 'login',
     loadComponent: () =>
       import('./features/login-page/login-page').then((m) => m.LoginPage),
     title: 'Đăng nhập',
   },
+
   {
     path: 'register',
     loadComponent: () =>
@@ -19,24 +24,6 @@ export const routes: Routes = [
         (m) => m.RegisterPage
       ),
     title: 'Đăng ký',
-  },
-
-  // fallback page
-  {
-    path: 'forbidden',
-    loadComponent: () =>
-      import('./features/unauthorized-page/unauthorized-page').then(
-        (m) => m.UnauthorizedPage
-      ),
-    title: 'Không có quyền truy cập',
-  },
-  {
-    path: 'notfound',
-    loadComponent: () =>
-      import(
-        './features/resources-not-found-page/resources-not-found-page'
-      ).then((m) => m.ResourcesNotFoundPage),
-    title: 'Không tìm thấy',
   },
 
   // Protected area
@@ -47,6 +34,8 @@ export const routes: Routes = [
       import(
         './shared/layout/payment-channels-layout/payment-channels-layout'
       ).then((m) => m.PaymentChannelsLayout),
+
+    // children component
     children: [
       {
         path: '',
@@ -75,6 +64,24 @@ export const routes: Routes = [
         title: 'Chỉnh sửa kênh thanh toán',
       },
     ],
+  },
+
+  // fallback page
+  {
+    path: 'forbidden',
+    loadComponent: () =>
+      import('./features/unauthorized-page/unauthorized-page').then(
+        (m) => m.UnauthorizedPage
+      ),
+    title: 'Không có quyền truy cập',
+  },
+  {
+    path: 'notfound',
+    loadComponent: () =>
+      import(
+        './features/resources-not-found-page/resources-not-found-page'
+      ).then((m) => m.ResourcesNotFoundPage),
+    title: 'Không tìm thấy',
   },
 
   // Fallback

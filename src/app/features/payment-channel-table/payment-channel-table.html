@@ -1,15 +1,104 @@
 <div class="page">
-  <div class="page__header">
-    <div class="page__title">
-      <h3 class="page__h2 tui-text_h3">DANH SÁCH KÊNH THANH TOÁN</h3>
+  <div class="page__header page__header--search">
+    <div class="dynamic-search-bar">
+      <app-dynamic-search-bar
+        (search)="onSearch($event)"
+        (resetSearch)="onResetSearch()"
+      />
     </div>
-
-    <a class="btn btn--primary" routerLink="/payment-channels/create">
-      + TẠO MỚI
-    </a>
   </div>
 
-  <!-- <tui-loader [showLoader]="isLoading()" [overlay]="true" size="xl">
+  <div class="page__header page__header--title">
+    <div class="page__title-wrap">
+      <h2 class="page__h2">Danh sách kênh thanh toán</h2>
+    </div>
+
+    <div class="header-actions">
+      <div class="action-group">
+        @if (canSubmit()) {
+        <button
+          class="btn btn--outline"
+          [disabled]="isUpdatingStatus()"
+          (click)="onSubmit()"
+        >
+          Gửi duyệt
+        </button>
+        } @if (canApprove()) {
+        <button
+          class="btn btn--outline"
+          [disabled]="isUpdatingStatus()"
+          (click)="onApprove()"
+        >
+          Phê duyệt
+        </button>
+        } @if (canReject()) {
+        <button
+          class="btn btn--outline"
+          [disabled]="isUpdatingStatus()"
+          (click)="onReject()"
+        >
+          Từ chối
+        </button>
+        } @if (canCancel()) {
+        <button
+          class="btn btn--outline"
+          [disabled]="isUpdatingStatus()"
+          (click)="onCancel()"
+        >
+          Hủy duyệt
+        </button>
+        }
+        <tui-loader [showLoader]="isUpdatingStatus()"></tui-loader>
+      </div>
+
+      <div class="action-group">
+        <input
+          type="file"
+          #fileInput
+          accept=".xlsx,.xls"
+          style="display: none"
+          (change)="onImportFileSelected($event)"
+        />
+
+        <button
+          class="btn btn--excel"
+          [disabled]="!canImport()"
+          (click)="fileInput.click()"
+        >
+          <img src="assets/icons/import.png" alt="" class="btn-icon" />
+          <span>Import Excel</span>
+        </button>
+
+        <tui-loader [showLoader]="isImporting()"></tui-loader>
+
+        <button
+          class="btn btn--excel-outline"
+          (click)="exportExcel()"
+          [disabled]="!canExport()"
+        >
+          <img src="assets/icons/export.png" alt="" class="btn-icon" />
+          <span>Export Excel</span>
+        </button>
+
+        <button
+          class="btn btn--excel-outline"
+          (click)="exportTemplate()"
+          [disabled]="!canExport()"
+        >
+          <img src="assets/icons/template.png" alt="" class="btn-icon" />
+          <span>Export template</span>
+        </button>
+      </div>
+
+      <div class="action-group">
+        <a class="btn btn--primary" routerLink="/payment-channels/create">
+          <i class="tuiIconPlus"></i> TẠO MỚI
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <tui-loader [showLoader]="isLoading()" [overlay]="true" size="xl">
     <div class="grid-wrap">
       <ag-grid-angular
         class="ag-theme-quartz"
@@ -18,18 +107,43 @@
         [domLayout]="'autoHeight'"
         [defaultColDef]="defaultColDef"
         [pagination]="false"
+        [rowSelection]="rowSelection"
+        [selectionColumnDef]="selectionColumnDef"
+        [getRowId]="getRowId"
+        (selectionChanged)="onSelectionChanged($event)"
         (gridReady)="onGridReady($event)"
         (firstDataRendered)="onFirstDataRendered($event)"
         (gridSizeChanged)="onGridSizeChanged($event)"
       >
       </ag-grid-angular>
+
+      <div class="empty" *ngIf="isEmpty()">Không tìm thấy dữ liệu phù hợp</div>
     </div>
-  </tui-loader> -->
+  </tui-loader>
 
   <div class="page__footer">
     <div class="meta">
       <span class="meta__label">Tổng số bản ghi</span>
-      <strong class="meta__value">{{ totalElements() }}</strong>
+      <strong class="meta__value">{{ totalRecordsLabel() }}</strong>
+    </div>
+
+    <div class="page-size-selector">
+      <label class="page-size-label">Hiển thị số bản ghi:</label>
+      <input
+        type="number"
+        class="page-size-input"
+        [value]="pageSize()"
+        min="1"
+        max="1000"
+        list="pageSizeList"
+        (change)="onPageSizeChange(+$any($event.target).value)"
+        (keydown.enter)="onPageSizeChange(+$any($event.target).value)"
+      />
+      <datalist id="pageSizeList">
+        @for (option of pageSizeOptions; track option) {
+        <option [value]="option"></option>
+        }
+      </datalist>
     </div>
 
     <tui-pagination

@@ -1,0 +1,158 @@
+/* resources-not-found-page.css */
+
+:host {
+  display: block;
+}
+
+/* ========== Layout / Surface ========== */
+.page {
+  position: relative;
+  min-height: 100vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 2rem 1rem;
+
+  /* Prefer theme tokens, keep subtle gradient */
+  background: linear-gradient(
+    180deg,
+    var(--tui-base-01),
+    color-mix(in srgb, var(--tui-base-01) 80%, #ffffff 20%)
+  );
+}
+
+.container {
+  width: 100%;
+  max-width: 72rem; /* ~1152px */
+  margin: 0 auto;
+}
+
+.content {
+  max-width: 32rem; /* ~512px */
+  margin: 0 auto;
+  padding: 1.5rem;
+
+  text-align: center;
+}
+
+/* ========== Typography ========== */
+.code {
+  margin: 0 0 0.75rem;
+
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+
+  font-size: clamp(4rem, 12vw, 7rem);
+  color: var(--tui-text-02);
+  opacity: 0.9;
+}
+
+.title {
+  margin: 0 0 0.5rem;
+  font: var(--tui-font-heading-4);
+  color: var(--tui-text-01);
+}
+
+.desc {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--tui-text-02);
+  opacity: 0.9;
+}
+
+/* ========== Actions ========== */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.actions [tuiButton] {
+  min-width: 9rem; /* ~144px */
+}
+
+/* ========== Back Button (Icon) ========== */
+.back-btn {
+  position: fixed;
+  top: 1.25rem; /* 20px */
+  left: 1.25rem; /* 20px */
+  z-index: 1000;
+
+  width: 2.75rem; /* 44px */
+  height: 2.75rem; /* 44px */
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+  background: var(--tui-base-01);
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.back-btn img {
+  width: 24px;
+  height: 24px;
+}
+
+.back-btn:hover {
+  transform: translateX(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+.back-btn:active {
+  transform: scale(0.95);
+}
+
+/* Optional: keyboard accessibility */
+.back-btn:focus-visible {
+  outline: 2px solid var(--tui-primary);
+  outline-offset: 3px;
+}
+
+/* ========== Responsive ========== */
+@media (max-width: 480px) {
+  .page {
+    padding: 1.5rem 1rem;
+  }
+
+  .content {
+    padding: 1.25rem;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions [tuiButton] {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .back-btn {
+    top: 0.75rem; /* 12px */
+    left: 0.75rem; /* 12px */
+    width: 2.5rem; /* 40px */
+    height: 2.5rem; /* 40px */
+  }
+
+  .back-btn img {
+    width: 20px;
+    height: 20px;
+  }
+}

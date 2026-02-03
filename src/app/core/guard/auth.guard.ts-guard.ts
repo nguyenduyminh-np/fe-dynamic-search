@@ -1,29 +1,68 @@
-import { CanMatchFn, Router } from '@angular/router';
-import { inject } from '@angular/core';
-import { TokenStore } from '../auth/token.store';
+import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
+import { inject, INJECTOR } from '@angular/core';
+import { take } from 'rxjs/operators';
 
-export const authCanMatch: CanMatchFn = (_route, segments) => {
+import { TokenStore } from '../auth/token.store';
+import { TuiDialogService } from '@taiga-ui/core';
+import { PolymorpheusComponent } from '@taiga-ui/polymorpheus';
+import {
+  GuardBlockDialog,
+  GuardBlockModel,
+} from '../../components/dialogs/guard-block-dialog/guard-block-dialog';
+
+// chống spam: chỉ cho phép 1 dialog tại 1 thời điểm
+let authDialogOpen = false;
+
+export const authCanMatch: CanMatchFn = (
+  _route: Route,
+  segments: UrlSegment[]
+): boolean => {
   const tokens = inject(TokenStore);
   const router = inject(Router);
 
-  const attemptedUrl = '/' + segments.map((s) => s.path).join('/');
-  const fallback =
-    attemptedUrl && attemptedUrl !== '/' ? attemptedUrl : '/payment-channels';
-
+  // 1) Có access và chưa hết hạn => cho vào
   const access = tokens.accessToken();
-
-  // Có access và chưa hết hạn => cho vào
   if (access && !tokens.isAccessExpired()) return true;
 
-  // Không có refresh => fallback login + returnUrl
-  // (Nếu access hết hạn nhưng có refresh, cho vào, interceptor sẽ tự refresh khi request API bị 401)
-  if (!tokens.refreshToken()) {
-    return router.createUrlTree(['/login'], {
-      queryParams: { returnUrl: fallback },
-    });
-  }
+  // 2) Có refresh => cho vào (interceptor sẽ refresh khi API 401)
+  if (tokens.refreshToken()) return true;
 
-  // Có refresh token => cho vào protected area
-  // Refresh token rotation sẽ được interceptor xử lý khi request API bị 401
-  return true;
+  // 3) Chưa login => mở dialog => user bấm login => navigate sang /login?returnUrl=...
+  if (authDialogOpen) return false;
+  authDialogOpen = true;
+
+  const dialogs = inject(TuiDialogService);
+  const injector = inject(INJECTOR);
+
+  // lấy ra url user đang cố truy cập nhưng bị guard chặn
+  const nav = router.currentNavigation();
+  const navUrl = nav?.extractedUrl?.toString() ?? null;
+
+  const attemptedUrl =
+    navUrl && navUrl !== '/'
+      ? navUrl
+      : '/' + segments.map((s) => s.path).join('/');
+
+  const returnUrl =
+    attemptedUrl && attemptedUrl !== '/' ? attemptedUrl : '/payment-channels';
+
+  dialogs
+    .open<void>(new PolymorpheusComponent(GuardBlockDialog, injector), {
+      data: <GuardBlockModel>{
+        title: 'Bạn chưa đăng nhập',
+        content: 'Vui lòng đăng nhập để tiếp tục',
+        returnUrl,
+      },
+      closeable: true,
+      dismissible: true,
+      size: 'm',
+    })
+    .pipe(take(1))
+    .subscribe({
+      complete: () => {
+        authDialogOpen = false;
+      },
+    });
+
+  return false;
 };

@@ -1,20 +1,28 @@
-<section class="min-h-screen flex items-center bg-white dark:bg-gray-900">
-  <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 w-full">
-    <div class="mx-auto max-w-screen-sm text-center">
-      <h1
-        class="mb-4 text-7xl tracking-tight font-extrabold lg:text-9xl text-primary-600 dark:text-primary-500"
-      >
-        403
-      </h1>
+<section class="page">
+  <button
+    tuiButton
+    appearance="icon"
+    routerLink=""
+    class="back-btn"
+    title="Trang chủ"
+  >
+    <img
+      src="/assets/icons/turn-back.png"
+      alt="Back"
+      style="height: 24px; width: 24px"
+    />
+  </button>
+  <div class="container">
+    <div class="content">
+      <div class="code">403</div>
 
-      <p
-        class="mb-4 text-3xl tracking-tight font-bold text-gray-900 md:text-4xl dark:text-white"
-      >
-        BẠN KHÔNG CÓ QUYỀN TRUY CẬP HỆ THỐNG NÀY
+      <h1 class="title">Không có quyền truy cập</h1>
+      <p class="desc">
+        Bạn không có quyền truy cập hệ thống này. Nếu bạn nghĩ đây là nhầm lẫn,
+        vui lòng liên hệ quản trị viên.
       </p>
 
-      <div class="flex justify-center gap-4 flex-wrap">
-        <!-- Back to home -->
+      <div class="actions">
         <button
           tuiButton
           type="button"
@@ -25,7 +33,6 @@
           Về trang chủ
         </button>
 
-        <!-- Go back -->
         <button
           tuiButton
           type="button"

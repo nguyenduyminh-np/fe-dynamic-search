@@ -9,6 +9,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/auth/auth-interceptors';
+import { globalErrorInterceptor } from './core/interceptors/global-error.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,6 +17,9 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
     provideEventPlugins(),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    // globalErrorInterceptor chạy SAU authInterceptor để không can thiệp vào logic refresh token
+    provideHttpClient(
+      withInterceptors([authInterceptor, globalErrorInterceptor]),
+    ),
   ],
 };

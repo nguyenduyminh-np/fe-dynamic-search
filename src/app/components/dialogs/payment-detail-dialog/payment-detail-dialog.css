@@ -1,0 +1,147 @@
+:host {
+  display: block;
+}
+
+/* wrapper */
+.payment-detail-wrap {
+  width: min(720px, 92vw);
+  box-sizing: border-box;
+}
+
+/* ===== TABLE SURFACE (border must be visible) ===== */
+.payment-detail-wrap .detail-table {
+  background: var(--tui-base-01);
+
+  /* border + fallback outline (outline ALWAYS visible) */
+  border: 1px solid var(--tui-base-04);
+  outline: 1px solid var(--tui-base-04);
+  outline-offset: -1px;
+
+  border-radius: 0.75rem;
+  overflow: hidden;
+
+  /* nếu dialog có background gần giống, thêm shadow rất nhẹ để tách khối */
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03);
+}
+
+/* Row = 2 columns, allow shrink/wrap */
+.payment-detail-wrap .row {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  min-width: 0; /* ✅ important */
+}
+
+.payment-detail-wrap .row:not(:last-child) {
+  border-bottom: 1px solid var(--tui-base-03);
+}
+
+/* Cells */
+.payment-detail-wrap .cell {
+  padding: 0.75rem 1rem;
+  line-height: 1.45;
+  min-width: 0; /* ✅ important */
+}
+
+.payment-detail-wrap .label {
+  background: var(--tui-base-02);
+  font-weight: 700;
+  color: var(--tui-text-02);
+  border-right: 1px solid var(--tui-base-03);
+}
+
+/* Value column */
+.payment-detail-wrap .value {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  min-width: 0; /* ✅ important */
+  color: var(--tui-text-01);
+}
+
+/* Long text (Tên kênh...) */
+.payment-detail-wrap .value-text {
+  min-width: 0;
+  max-width: 100%;
+
+  /* ✅ wrap aggressively for long tokens/UUID */
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* ===== PILL ===== */
+.payment-detail-wrap .pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: auto; /* ✅ để wrap */
+  min-height: 1.75rem;
+  padding: 0.25rem 0.625rem; /* ✅ đẹp hơn khi multi-line */
+  border-radius: 999px;
+
+  font-size: 0.875rem;
+  font-weight: 700;
+
+  border: 1px solid var(--tui-base-04);
+  background: var(--tui-base-02);
+  color: var(--tui-text-02);
+
+  white-space: normal; /* ✅ cho phép xuống dòng */
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* ✅ Always colored (fallback rgba) */
+.payment-detail-wrap .pill--success {
+  background: var(--tui-success-fill, rgba(22, 163, 74, 0.14));
+  border-color: var(--tui-success-fill, rgba(22, 163, 74, 0.28));
+  color: var(--tui-success-text, var(--tui-text-01));
+}
+
+.payment-detail-wrap .pill--warning {
+  background: var(--tui-warning-fill, rgba(245, 158, 11, 0.16));
+  border-color: var(--tui-warning-fill, rgba(245, 158, 11, 0.3));
+  color: var(--tui-warning-text, var(--tui-text-01));
+}
+
+.payment-detail-wrap .pill--danger {
+  background: var(--tui-error-fill, rgba(220, 38, 38, 0.14));
+  border-color: var(--tui-error-fill, rgba(220, 38, 38, 0.28));
+  color: var(--tui-error-text, var(--tui-text-01));
+}
+
+/* ✅ change muted to still look like a status (not plain text) */
+.payment-detail-wrap .pill--muted {
+  background: rgba(148, 163, 184, 0.18);
+  border-color: rgba(148, 163, 184, 0.32);
+  color: var(--tui-text-02);
+}
+
+/* Actions */
+.payment-detail-wrap .actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--tui-base-03);
+}
+
+.payment-detail-wrap .actions [tuiButton] {
+  min-width: 10rem;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .payment-detail-wrap .row {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-detail-wrap .label {
+    border-right: none;
+    background: transparent;
+    padding-bottom: 0.25rem;
+    opacity: 0.9;
+  }
+}

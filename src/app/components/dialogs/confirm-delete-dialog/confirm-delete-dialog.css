@@ -1,0 +1,50 @@
+/* confirm-dialog.css */
+
+/* Layout wrapper only – NOT a card */
+.dialog {
+  width: min(520px, 92vw);
+  box-sizing: border-box;
+}
+
+/* Message */
+.message {
+  margin: 0;
+  font-size: 1rem; /* 16px */
+  line-height: 1.6;
+  color: var(--tui-text-01);
+}
+
+/* Highlight entity name */
+.message b {
+  font-weight: 700;
+  color: var(--tui-text-02);
+}
+
+/* Actions – centered CTA group (banking standard) */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem; /* 12px */
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--tui-base-03);
+}
+
+/* Button sizing consistency */
+.actions [tuiButton] {
+  min-width: 8rem; /* 128px */
+}
+
+/* Mobile */
+@media (max-width: 420px) {
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .actions [tuiButton] {
+    width: 100%;
+    min-width: 0;
+  }
+}

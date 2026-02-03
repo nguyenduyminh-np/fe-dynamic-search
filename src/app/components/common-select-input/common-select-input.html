@@ -1,0 +1,40 @@
+<tui-textfield
+  class="w-full"
+  tuiChevron
+  [stringify]="stringify"
+  [identityMatcher]="identityMatcher"
+>
+  <label tuiLabel>{{ label }}</label>
+
+  <input
+    tuiComboBox
+    [(ngModel)]="selectedOption"
+    (ngModelChange)="handleModelChange($event)"
+    (blur)="handleBlur()"
+    [disabled]="disabled"
+    [placeholder]="placeholder"
+    [readOnly]="loading || !searchable"
+    [strict]="strict"
+    [tuiTextfieldCleaner]="allowClear"
+  />
+
+  <tui-data-list-wrapper
+    new
+    *tuiTextfieldDropdown
+    [items]="options | tuiFilterByInput : matcher"
+    [emptyContent]="loading ? loadingTpl : nothingFound"
+  />
+</tui-textfield>
+
+<ng-template #nothingFound>
+  <div class="tui-space_vertical-2 tui-space_horizontal-4 text-gray">
+    {{ emptyText }}
+  </div>
+</ng-template>
+
+<ng-template #loadingTpl>
+  <div class="tui-space_vertical-2 tui-space_horizontal-4">
+    <tui-loader class="loader-icon"></tui-loader>
+    <div class="skeleton-line" *ngFor="let _ of [1,2,3]"></div>
+  </div>
+</ng-template>

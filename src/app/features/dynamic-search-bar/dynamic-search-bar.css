@@ -1,0 +1,57 @@
+.search-grid {
+  display: grid;
+  gap: 16px;
+  align-items: end;
+}
+
+/* ================= Mobile: 4 cột ================= */
+@media (max-width: 767px) {
+  .search-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  /* action luôn nằm cùng row với input => không span 4 */
+  .action-group {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    grid-column: span 2; /* chiếm 2 cột để đủ chỗ cho 2 nút */
+    white-space: nowrap;
+  }
+}
+
+/* ================= Tablet: 8 cột ================= */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .search-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+
+  .action-group {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    grid-column: span 2; /* luôn ở cùng row với các input (row cuối) */
+    white-space: nowrap;
+  }
+}
+
+/* ================= Desktop: tất cả trên 1 row ================= */
+@media (min-width: 1200px) {
+  .search-grid {
+    /* field tự co giãn, action theo content, tất cả trên 1 hàng */
+    grid-template-columns: repeat(8, minmax(140px, 1fr)) auto;
+  }
+
+  .action-group {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    grid-column: auto; /* nằm đúng 1 cell auto ở cuối */
+    white-space: nowrap;
+  }
+}
+
+/* đảm bảo control không bị tràn */
+.form-item {
+  min-width: 0;
+}

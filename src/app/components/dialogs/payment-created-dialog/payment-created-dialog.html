@@ -1,0 +1,45 @@
+<div class="wrap">
+  <div class="tui-space_bottom-4">
+    <p class="intro">Bạn đã tạo thành công kênh thanh toán với thông tin:</p>
+
+    <div class="summary">
+      <div class="row">
+        <span class="label">ID:</span>
+        <span class="value">{{ data.id }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Tên kênh thanh toán:</span>
+        <span class="value">{{ data.paymentChannel }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Trạng thái kênh:</span>
+        <span class="value">{{ data.channelStatus }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Mã tiền tệ:</span>
+        <span class="value">{{ data.currencyCode }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Tiêu chuẩn tin nhắn:</span>
+        <span class="value">{{ data.msgStandard }}</span>
+      </div>
+
+      <div class="row">
+        <span class="label">Trạng thái kênh:</span>
+        <span class="value"
+          >{{ data.activeStatus === 1 ? 'Hoạt động': "Không" }}</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button tuiButton size="m" appearance="primary" (click)="close()">
+      Đóng
+    </button>
+  </div>
+</div>

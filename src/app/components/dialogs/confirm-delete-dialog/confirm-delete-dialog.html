@@ -1,0 +1,16 @@
+<div class="dialog">
+  <p class="message">
+    Bạn có chắc chắn muốn xóa kênh thanh toán:
+    <b>{{ data.name }}</b>?
+  </p>
+
+  <div class="actions">
+    <button tuiButton type="button" appearance="secondary" (click)="cancel()">
+      Hủy
+    </button>
+
+    <button tuiButton type="button" appearance="primary" (click)="confirm()">
+      Xóa
+    </button>
+  </div>
+</div>

@@ -1,42 +1,66 @@
-<form class="login" (ngSubmit)="onSubmit(f)" #f="ngForm" novalidate>
-  <h1 class="title">Đăng nhập</h1>
-  <p class="subtitle">Vui lòng nhập tài khoản để tiếp tục</p>
+<section class="auth-page">
+  <div class="auth-container">
+    <form
+      tuiAppearance="floating"
+      tuiCardLarge
+      tuiForm="m"
+      [formGroup]="form"
+      [style.max-width.rem]="32"
+      [formGroup]="form"
+      (ngSubmit)="onSubmit()"
+    >
+      <header tuiHeader>
+        <h2 tuiTitle>Đăng nhập</h2>
+        <tui-notification appearance="info">
+          <h3 tuiTitle>
+            Lưu ý
+            <span tuiSubtitle
+              >Không chia sẻ thông tin tài khoản cho bất kỳ ai</span
+            >
+          </h3>
+        </tui-notification>
+      </header>
 
-  <tui-textfield class="field">
-    <label tuiLabel>Tên đăng nhập</label>
-    <input
-      tuiTextfield
-      name="username"
-      [(ngModel)]="model.username"
-      placeholder="Nhập tên đăng nhập của bạn"
-      required
-      minlength="3"
-      [disabled]="loading()"
-      autocomplete="username"
-    />
-  </tui-textfield>
+      <tui-textfield class="field">
+        <label tuiLabel>Tên đăng nhập</label>
+        <input
+          tuiTextfield
+          formControlName="username"
+          placeholder="Nhập tên đăng nhập của bạn"
+        />
+      </tui-textfield>
+      <tui-error
+        formControlName="username"
+        [error]="[] | tuiFieldError | async"
+      />
 
-  <tui-textfield class="field">
-    <label tuiLabel>Mật khẩu</label>
-    <input
-      tuiTextfield
-      name="password"
-      [(ngModel)]="model.password"
-      placeholder="Mật khẩu gồm 8 ký tự"
-      type="password"
-      required
-      [disabled]="loading()"
-      autocomplete="current-password"
-    />
-    <tui-icon tuiPassword />
-  </tui-textfield>
+      <tui-textfield>
+        <label tuiLabel>Nhập mật khẩu gồm 8 chữ số</label>
+        <input
+          formControlName="password"
+          placeholder="**********"
+          tuiTextfield
+          type="password"
+        />
+        <tui-icon tuiPassword />
+      </tui-textfield>
 
-  <button class="btn" type="submit" [disabled]="loading() || f.invalid">
-    <span>Đăng nhập</span>
-    <span class="spinner" *ngIf="loading()" aria-hidden="true"></span>
-  </button>
-
-  <div class="links">
-    <a routerLink="/register">Chưa có tài khoản? Đăng ký</a>
+      <tui-error
+        formControlName="password"
+        [error]="[] | tuiFieldError | async"
+      />
+      <footer>
+        <button tuiButton appearance="primary" type="submit">
+          <span>Đăng nhập</span>
+        </button>
+        <span class="spinner" *ngIf="loading()" aria-hidden="true"></span>
+        <button tuiButton appearance="secondary" (click)="onReset()">
+          Reset
+        </button>
+      </footer>
+      <div class="links">
+        <a routerLink="/register">Chưa có tài khoản? Đăng ký</a>
+      </div>
+    </form>
   </div>
-</form>
+</section>
